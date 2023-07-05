@@ -35,7 +35,7 @@ Example: lowercase snake notation for file names.
 ## Structure
 The project follows the Flutter framework conventions and has a specific structure to organize the code and resources effectively.
 The project's source code is located in the **/lib** folder. It contains the main Dart files that comprise the application logic.
-For more information, see ~README/STRUCTURE.md
+For more information, see [~README/STRUCTURE.md](https://github.com/brofegroy/WordBlitz/blob/master/~README/STRUCTURE.md#structure)
 
 # How to get started / workflow
 1. Send the owner of this repo your Github username, then accept the request to collaborate.
@@ -47,6 +47,6 @@ For more information, see ~README/STRUCTURE.md
 7. Merge Master into your branch.(since this is a small scale project)
 8. Send a pull request to merge your branch into main.
 
-- avoid editing files not marked by you within ~README/TODO.md to reduce merge conflicts.
+- avoid editing files not marked by you within [~README/TODO.md](https://github.com/brofegroy/WordBlitz/blob/master/~README/TODO.md#currently-editing) to reduce merge conflicts.
 
-### if you have anymore questions, feel free to contact the owner of this repo. Happy Coding!
+## If you have anymore questions, feel free to contact the owner of this repo. Happy Coding!

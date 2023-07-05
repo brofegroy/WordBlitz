@@ -12,28 +12,29 @@ This is just a way to keep track of who is working on what so that there is less
 **You may still edit unmarked files if you need to.**
 
 ### declaring files example
-**Example_Folder1 In /lib**
+#### Example_Folder1 In /lib
 - example_screen <- ExampleBotUsername is working on this
 - example_screen_controller <- ExampleBotUsername is working on this
 - example_screen2/ *<-* ExampleBotUsername is working on this
 - 
-**Example_Folder2**
--
+#### Example_Folder2
+- example_tool3 <- ExampleBotUsername is working on this
+- 
 
 
 
 ## Currently Editing
 choose your files here to begin:
-**Screens**
+### Screens
 - Analysis <- cy working on this
-- 
-**tools**
+-
+### tools
 - 
 
 
 
 ## TODO Overview
-Things to do here
+Choose what you want to do here
 
 ### Bugs
 -
