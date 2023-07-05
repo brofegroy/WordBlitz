@@ -126,9 +126,11 @@ class DismissibleWordsSubwidget extends StatelessWidget {
   final BlitzScreenController controller;
   final double height;
 
-  DismissibleWordsSubwidget({Key? key, required this.controller, required this.height}):super(key: key) {
-    print("hi");
-  }
+  DismissibleWordsSubwidget({
+    Key? key,
+    required this.controller,
+    required this.height
+  }):super(key: key) ;
 
   @override
   Widget build(BuildContext context) {

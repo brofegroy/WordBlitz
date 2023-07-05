@@ -23,7 +23,7 @@ class BlitzScreenModel{
   Set<String>? formableWords = Dict.txt; //TODO make algorithm that shortens list.
   //
   //constructor
-  BlitzScreenModel(this.gridLayout,this.submittedList);
+  BlitzScreenModel(this.gridLayout);
   //
 
   //methods
@@ -108,6 +108,12 @@ class BlitzScreenModel{
     submittedList += [submittedWord];
     currentWordScore += max(scoreChange, 0);
     currentPenaltyScore += min(scoreChange,0);
+  }
+  void reInitialise(initialList){
+    for (String word in initialList){
+      int score = ScoreCounter.countScore(word);
+      _submitWord(word, score);
+    }
   }
   void removeWord(int index){
     if (index <= submittedList.length){

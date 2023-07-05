@@ -1,16 +1,52 @@
-# wordblitz
+# WordBlitz
 
-wordblitz
+## About 
+This is a second version of a previous demo version [jaredxwos/wordblitz](https://github.com/JaredXwos/WordBlitz)
 
-## Getting Started
+## Purpose
+Provide a digital alternative for boggle players to train while on the go.
 
-This project is a starting point for a Flutter application.
+## Features
+This mobile application will have a two part functionality, word finding practice and anagram finding.
 
-A few resources to get you started if this is your first Flutter project:
+### Practice mode
+The user will be provided with a simulation of a boggle board, to play a 3 min boggle style word search.
+After the game, the app will mark the words and provide feedback.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Anagram Finding
+The user will be given a miniature section of the boggle board with best-value triangle of letters.
+These best value triangles will be calculated based off the user's dictionary of choice.
+Each triangle+letter(s) may or may not contain acceptable words, and the user is to input all the words and be assessed for completeness and accuracy.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Customisable settings
+There will be a configuration page where the user can customise settings such as
+- the desired lexicon,e.g. CSW22, and dice types
+- custom points scoring
+- other graphical settings, such as backgrounds
+- and more
+
+## Language
+This project uses the [flutter](https://flutter.dev/) framework, and is written in the [Dart](https://dart.dev/) Language.
+
+## Style Guide
+We should adhere to project structure guidelines and naming conventions enforced by the linter in Android Studio as much as possible.
+Example: lowercase snake notation for file names.
+
+## Structure
+The project follows the Flutter framework conventions and has a specific structure to organize the code and resources effectively.
+The project's source code is located in the **/lib** folder. It contains the main Dart files that comprise the application logic.
+For more information, see ~README/STRUCTURE.md
+
+# How to get started / workflow
+1. Send the owner of this repo your Github username, then accept the request to collaborate.
+2. Set up flutter on your machine.
+3. Clone this repo onto your machine.
+4. Mark the section you will be working on in ~README/TODO.md with your username in the **master branch**
+5. Make a branch with a relevant name and edit there.
+6. Upon completion commit and push into your branch
+7. Merge Master into your branch.(since this is a small scale project)
+8. Send a pull request to merge your branch into main.
+
+- avoid editing files not marked by you within ~README/TODO.md to reduce merge conflicts.
+
+### if you have anymore questions, feel free to contact the owner of this repo. Happy Coding!

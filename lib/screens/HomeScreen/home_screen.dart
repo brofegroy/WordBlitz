@@ -32,17 +32,19 @@ class HomeScreen extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context)=> const BlitzScreen(
                               initialGameTime: 10,
-                              initialWordList: ["1","2","3"],
+                              initialWordList: [],
                             )
                         )
                     );
+                    print(returnValue);
                     print("finished awaiting in home");
-                    if(returnValue["screen"] == BlitzScreen){
+
+/*                    if(returnValue["screen"] == BlitzScreen){
                       print(returnValue);
                     }
                     if(returnValue["screen"] == AnalysisScreen){
                       print(returnValue);
-                    }//TODO handle return values
+                    }//TODO handle return values*/
                   },
                   child: const Text("navigate to blitzscreen")),
               ElevatedButton(

@@ -44,17 +44,17 @@ class BlitzScreenController{
   BlitzScreenController({
     required this.context,
     required this.screenSize,
-    List<String>? initialWordList
+    List<String>? initialWordList,
+    int? initialScore,
   }){
     Random random = Random();
     final List<int> dicePositionShuffleState = List<int>.unmodifiable(List.generate(16, (index) => index)..shuffle());
     final List<int> diceOrientationShuffleState = List<int>.unmodifiable(List.generate(16, (_) => random.nextInt(6)));
     gridLayout = List.generate(16, (index) => Dice.txt[dicePositionShuffleState[index]][diceOrientationShuffleState[index]]);
     screenWidth = screenSize.width;
-    recentWordsNotifier.value = initialWordList??[];
     gridSize = screenWidth * 0.8;//[Hardcoded]
 
-    _model = BlitzScreenModel(gridLayout,initialWordList??[]);
+    _model = BlitzScreenModel(gridLayout);
     _model.resetGrid = resetHighlightGrid;
     _model.updateGrid = updateHighlightGrid;
     _model.updateDisplayScore = updateScore;
@@ -123,12 +123,13 @@ class BlitzScreenController{
     }
     navigateToAnalysis();
   }
-  void navigateToAnalysis(){
-    Navigator.pushReplacement(context,
+  void navigateToAnalysis() async{
+    Navigator.pop(context,
+      await Navigator.push(context,
         MaterialPageRoute(
-            builder: (context)=> const AnalysisScreen(
-            )
+            builder: (context) => const AnalysisScreen()
         )
+      )
     );
   }
   void navigatorPop(){
