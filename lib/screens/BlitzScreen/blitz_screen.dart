@@ -5,13 +5,16 @@ import 'blitz_screen_controller.dart';
 //
 
 class BlitzScreen extends StatelessWidget {
-  final int initialGameTime;
-  final List<String> initialWordList;
+  ///pass in these 3 parameters as null to get default values and random board state
+  final int? initialGameTime;
+  final List<String>? initialWordList;
+  final List<String>? initialGridLayout;
 
   const BlitzScreen({
     Key? key,
     this.initialGameTime = 180,
-    this.initialWordList = const [],
+    this.initialWordList,
+    this.initialGridLayout,
   }) : super(key: key);
 
   @override
@@ -24,9 +27,10 @@ class BlitzScreen extends StatelessWidget {
     final controller = BlitzScreenController(
         context: context,
         screenSize: MediaQuery.of(context).size,
-        initialWordList: initialWordList,
+        initialWordList: initialWordList??[],
+        initialGridLayout: initialGridLayout,
     );
-    controller.gameTimerNotifier.value = initialGameTime;
+    controller.gameTimerNotifier.value = initialGameTime??180;
     //
 
     return WillPopScope(

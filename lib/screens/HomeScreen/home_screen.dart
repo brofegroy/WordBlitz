@@ -32,7 +32,8 @@ class HomeScreen extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context)=> const BlitzScreen(
                               initialGameTime: 10,
-                              initialWordList: [],
+                              initialWordList: ["HELLO","WISH","SCREEN","YEN"],
+                              initialGridLayout: null,//null tells it to random
                             )
                         )
                     );

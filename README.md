@@ -37,16 +37,26 @@ The project follows the Flutter framework conventions and has a specific structu
 The project's source code is located in the **/lib** folder. It contains the main Dart files that comprise the application logic.
 For more information, see [~README/STRUCTURE.md](https://github.com/brofegroy/WordBlitz/blob/master/~README/STRUCTURE.md#structure)
 
+## Project ideals
+
+### README for each screen
+Ideally we should create a concise and comprehensive README for each screen.
+This is to allow collaborators to use the screen, without needing to know exactly how the screen works.
+The dedicated README file within each screen's folder should highlights the crucial aspects of how to use the screen such as:
+1. **inputs required and how it configures what is rendered**
+2. **possible outputs and their associated meanings**
+3. **dependencies outside of the screen folder**.
+
 # How to get started / workflow
 1. Send the owner of this repo your Github username, then accept the request to collaborate.
 2. Set up flutter on your machine.
 3. Clone this repo onto your machine.
-4. Mark the section you will be working on in ~README/TODO.md with your username in the **master branch**
+4. Mark the section you will be working on in ~README/TODO.md with your username in the **TODO Branch**
 5. Make a branch with a relevant name and edit there.
 6. Upon completion commit and push into your branch
 7. Merge Master into your branch.(since this is a small scale project)
 8. Send a pull request to merge your branch into main.
 
-- avoid editing files not marked by you within [~README/TODO.md](https://github.com/brofegroy/WordBlitz/blob/master/~README/TODO.md#currently-editing) to reduce merge conflicts.
+- avoid editing files not marked by you within [~README/TODO.md](https://github.com/brofegroy/WordBlitz/blob/TODO/~README/TODO.md#currently-editing) to reduce merge conflicts.
 
 ## If you have anymore questions, feel free to contact the owner of this repo. Happy Coding!

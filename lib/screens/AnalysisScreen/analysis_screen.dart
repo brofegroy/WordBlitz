@@ -5,7 +5,9 @@ import 'package:wordblitz/screens/AnalysisScreen/analysis_screen_controller.dart
 //
 
 class AnalysisScreen extends StatelessWidget{
-  const AnalysisScreen({Key? key}) : super(key : key);
+  const AnalysisScreen({
+    Key? key
+  }) : super(key : key);
 
   @override
   Widget build(BuildContext context){

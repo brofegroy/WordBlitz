@@ -46,6 +46,8 @@ Choose what you want to do here
 ### Features on hold 
 - Blitzscreen supports multiple Q dice
 - Blitzscreen to support pausing/pause button
+- Blitzscreen score  and timer needs better aesthetics
+- Upload Background Images
 - 
 
 ### Less important features
