@@ -8,8 +8,8 @@ The instructions on how to use this TODO is in master Branch's [/~README/TODO.md
 ## Currently Editing
 choose your files here to begin:
 ### Screens
-- Analysis <- cy working on this
-- Blitzscreen <- cy working on this
+- Analysis/ <- cy working on this
+- Blitzscreen/ <- cy working on this
 ### tools
 - 
 
