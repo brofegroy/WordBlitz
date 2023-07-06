@@ -29,7 +29,7 @@ Choose what you want to do here
 - Blitzscreen supports multiple Q dice
 - Blitzscreen to support pausing/pause button
 - Figure out how to detect exiting the app, so we can save state before exiting.
-- 
+- BlitzScreen to be able to be initialised in uneditable mode.(onlys to display board.
 
 ### Less important features
 - 
