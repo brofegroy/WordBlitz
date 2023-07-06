@@ -5,7 +5,7 @@
 This is the screen where the user will be able to swipe to practice boggle on a board
 It will generate a fresh board if constructed without any arguments.
 
-It has a timer running the moment this screen loads up, and when it reaches 0,
+It has a timer running the moment this screen loads up, and when it reaches 0 or is initially less than 0,
 it will remove this current screen from the stack,then push the an instance of AnalysisScreen.
 It returns a Future of the return value of AnalysisScreen.
 
@@ -46,7 +46,7 @@ it will return a dictionary with 3 parameters:
 if timer ends, it pops using navigateToAnalysis() and with the second argument in pop,
 it returns a Future of whatever AnalysisScreen() returns. 
 
-## dependencies
+## Dependencies
 -external libraries dependencies
 import 'dart:math';
 import 'dart:ui';
@@ -58,3 +58,7 @@ import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
 import 'package:wordblitz/tools/score_counter.dart';
 import 'package:wordblitz/tools/config.dart';
 import 'package:wordblitz/tools/dict_and_dice.dart';
+
+## Bugs
+- currently assumes maximum of 1 dice with Qu exists on the board at any give time
+- currently does not show the Qu tile properly

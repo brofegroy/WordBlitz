@@ -130,7 +130,10 @@ class BlitzScreenController{
     Navigator.pop(context,
       await Navigator.push(context,
         MaterialPageRoute(
-            builder: (context) => const AnalysisScreen()
+            builder: (context) => AnalysisScreen(
+              initialList: _model.submittedList,
+              gridLayout: gridLayout,
+            )
         )
       )
     );
@@ -145,6 +148,8 @@ class BlitzScreenController{
   }
   Future<bool> handleOnWillPop()async{
     print("gameTimerNotifier.value is ${gameTimerNotifier.value}");
+    print("needs to implement double click back button to confirm exit/ or a backbutton");//TODO
+    navigatorPop();
     return false;
   }
   //

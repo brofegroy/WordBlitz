@@ -46,12 +46,13 @@ The dedicated README file within each screen's folder should highlights the cruc
 1. **inputs required and how it configures what is rendered**
 2. **possible outputs and their associated meanings**
 3. **dependencies outside of the screen folder**.
+4. **known current/long term bugs** (if applicable)
 
 # How to get started / workflow
 1. Send the owner of this repo your Github username, then accept the request to collaborate.
 2. Set up flutter on your machine.
 3. Clone this repo onto your machine.
-4. Mark the section you will be working on in ~README/TODO.md with your username in the **TODO Branch**
+4. Mark the section you will be working on in ~README/TODO.md with your username in the **TODO Branch** directly on Github.
 5. Make a branch with a relevant name and edit there.
 6. Upon completion commit and push into your branch
 7. Merge Master into your branch.(since this is a small scale project)
