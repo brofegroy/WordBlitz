@@ -19,7 +19,8 @@ choose your files here to begin:
 Choose what you want to do here
 
 ### Bugs
--
+- Blitzscreen currently does not display Qu tile as intended in an actual classic game(was not implemented yet), it displays it as Q instead
+- 
 
 ### TODO now
 - Analysis base screen <- cy currently working on this
