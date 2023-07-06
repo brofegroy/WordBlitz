@@ -28,6 +28,7 @@ Choose what you want to do here
 ### Features on hold 
 - Blitzscreen supports multiple Q dice
 - Blitzscreen to support pausing/pause button
+- Figure out how to detect exiting the app, so we can save state before exiting.
 - 
 
 ### Less important features
