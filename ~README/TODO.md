@@ -23,7 +23,7 @@ Choose what you want to do here
 - 
 
 ### TODO now
-- Analysis base screen <- cy currently working on this
+- Analysis Screen Colours
 - Settings base screen
 
 ### Features on hold 
@@ -31,6 +31,8 @@ Choose what you want to do here
 - Blitzscreen to support pausing/pause button
 - Figure out how to detect exiting the app, so we can save state before exiting.
 - BlitzScreen to be able to be initialised in uneditable mode.(onlys to display board.
+- Blitzscreen to allow repeat words
+- 
 
 ### Less important features
 - 
