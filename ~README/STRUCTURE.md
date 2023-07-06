@@ -14,7 +14,8 @@ Note that when adding new images or assets to the /resources folder, it is impor
 This is the entry point of the application. It initializes the app and includes the main method.
 
 ## /lib/screens
-The /lib/screens folder contains the screens of the application. Each screen has its own folder with three main files.
+The /lib/screens folder contains the screens of the application. Each screen has its own folder with three main files,
+and another folder within it containing the documentation on the screen's inputs, outputs, dependencies, and bugs if applicable. 
 
 ### Naming Screens
 For a screen named "QuorumKazakh", the files and folder structure would look like this:
@@ -23,6 +24,7 @@ For a screen named "QuorumKazakh", the files and folder structure would look lik
 - /lib/screens/QuorumKazakh/quorum_kazakh_controller.dart
 - /lib/screens/QuorumKazakh/quorum_kazakh_model.dart
 - /lib/screens/QuorumKazakh/quorum_kazakh_utils/ (if required)
+- /lib/screens/QuorumKazakh/quorum_kazakh_utils/quorum_kazakh.md
 
 ## /lib/tools
 The /lib/tools folder contains files that provide shared logic, utilities, or configurations used across multiple screens.

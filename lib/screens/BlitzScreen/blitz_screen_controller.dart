@@ -1,15 +1,13 @@
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
-import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
-import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
-import 'package:wordblitz/tools/config.dart';
 
 //import dependencies
+import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
+import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
 import 'package:wordblitz/tools/dict_and_dice.dart';
 import 'blitz_screen_model.dart';
-import 'BlitzScreenUtils/drag_position.dart';
+import 'blitz_screen_utils//drag_position.dart';
 //
 
 typedef BoolMatrix = List<List<bool>>;
@@ -19,8 +17,8 @@ class BlitzScreenController{
   late final BlitzScreenModel _model;
   final BuildContext context;
   late final List<String> gridLayout;
-  bool isCurrentlySwiping = false;
-  int afterglowState = 0;
+  bool _isCurrentlySwiping = false;
+  int _afterglowState = 0;
   final Size screenSize;
   late final double screenWidth;
   late final double gridSize;
@@ -45,12 +43,14 @@ class BlitzScreenController{
     required this.context,
     required this.screenSize,
     List<String>? initialWordList,
-    int? initialScore,
+    List<String>? initialGridLayout,
   }){
     Random random = Random();
-    final List<int> dicePositionShuffleState = List<int>.unmodifiable(List.generate(16, (index) => index)..shuffle());
-    final List<int> diceOrientationShuffleState = List<int>.unmodifiable(List.generate(16, (_) => random.nextInt(6)));
-    gridLayout = List.generate(16, (index) => Dice.txt[dicePositionShuffleState[index]][diceOrientationShuffleState[index]]);
+    gridLayout = initialGridLayout??List.generate(16, (index) =>
+    Dice.txt
+    [List<int>.unmodifiable(List.generate(16, (index) => index)..shuffle())[index]]
+    [List<int>.unmodifiable(List.generate(16, (_) => random.nextInt(6)))[index]]);
+    print(gridLayout);
     screenWidth = screenSize.width;
     gridSize = screenWidth * 0.8;//[Hardcoded]
 
@@ -59,13 +59,16 @@ class BlitzScreenController{
     _model.updateGrid = updateHighlightGrid;
     _model.updateDisplayScore = updateScore;
     _model.updateUIWordList = updateRecentWords;
+    _model.reInitialise(initialWordList??[]);
+    getRecentSubmittedWords();
+    updateScore();
 
     startBlitzTimer();
   }
   //
   //methods
   void onPanStart(DragStartDetails details) {
-    isCurrentlySwiping = true;
+    _isCurrentlySwiping = true;
     resetHighlightGrid();
   }
   void onPanUpdate(DragUpdateDetails details){
@@ -77,7 +80,7 @@ class BlitzScreenController{
     }
   }
   void onPanEnd(DragEndDetails details){
-    isCurrentlySwiping = false;
+    _isCurrentlySwiping = false;
     triggerAfterglow();
     _model.handleSubmit();
   }
@@ -92,10 +95,10 @@ class BlitzScreenController{
     isHighlighted = List.generate(4, (_) => List<bool>.filled(4, false));
   }
   Future<void> triggerAfterglow() async{
-    afterglowState++;
+    _afterglowState++;
     await Future.delayed(const Duration(seconds: 2));
-    if (afterglowState == 1 && isCurrentlySwiping==false){resetHighlightGrid();}
-    if (afterglowState >=1){afterglowState--;}
+    if (_afterglowState == 1 && _isCurrentlySwiping==false){resetHighlightGrid();}
+    if (_afterglowState >=1){_afterglowState--;}
     return;
   }
   List<String> handleOnDismissed(int dismissedIndex){
@@ -127,7 +130,10 @@ class BlitzScreenController{
     Navigator.pop(context,
       await Navigator.push(context,
         MaterialPageRoute(
-            builder: (context) => const AnalysisScreen()
+            builder: (context) => AnalysisScreen(
+              initialList: _model.submittedList,
+              gridLayout: gridLayout,
+            )
         )
       )
     );
@@ -136,11 +142,14 @@ class BlitzScreenController{
     Navigator.pop(context,{
       "screen": BlitzScreen,
       "list":_model.submittedList,
-      "time":gameTimerNotifier.value}
-    );
+      "time":gameTimerNotifier.value,
+      "gridLayout":gridLayout,
+    });
   }
   Future<bool> handleOnWillPop()async{
     print("gameTimerNotifier.value is ${gameTimerNotifier.value}");
+    print("needs to implement double click back button to confirm exit/ or a backbutton");//TODO
+    navigatorPop();
     return false;
   }
   //

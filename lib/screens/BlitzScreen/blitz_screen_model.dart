@@ -111,7 +111,9 @@ class BlitzScreenModel{
   }
   void reInitialise(initialList){
     for (String word in initialList){
+      print("reinitialised $word");
       int score = ScoreCounter.countScore(word);
+      print("reinitialised $word's score is $score");
       _submitWord(word, score);
     }
   }

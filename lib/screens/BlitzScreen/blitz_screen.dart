@@ -5,13 +5,16 @@ import 'blitz_screen_controller.dart';
 //
 
 class BlitzScreen extends StatelessWidget {
-  final int initialGameTime;
-  final List<String> initialWordList;
+  ///pass in these 3 parameters as null to get default values and random board state
+  final int? initialGameTime;
+  final List<String>? initialWordList;
+  final List<String>? initialGridLayout;
 
   const BlitzScreen({
     Key? key,
     this.initialGameTime = 180,
-    this.initialWordList = const [],
+    this.initialWordList,
+    this.initialGridLayout,
   }) : super(key: key);
 
   @override
@@ -24,9 +27,10 @@ class BlitzScreen extends StatelessWidget {
     final controller = BlitzScreenController(
         context: context,
         screenSize: MediaQuery.of(context).size,
-        initialWordList: initialWordList,
+        initialWordList: initialWordList??[],
+        initialGridLayout: initialGridLayout,
     );
-    controller.gameTimerNotifier.value = initialGameTime;
+    controller.gameTimerNotifier.value = initialGameTime??180;
     //
 
     return WillPopScope(
@@ -37,16 +41,16 @@ class BlitzScreen extends StatelessWidget {
         child: Scaffold(
           body: Stack(
             children: [
-              Image.network(
+              Image.asset(
                 // this is where the background goes
-                "https://lh3.googleusercontent.com/proxy/cOkDFcHT6HDMa3rmBke28G5Ba_52bB9g-haUych5KN-9cZ4rDSMAF_SUArc2dtKbtmKYzVqf8KeTb8NL8uGPmozQhEpG8ndkQ4sSQTXC1XlRDlXEYtuzIx4WJ-zbJpBMcld84TOucNFK",
+                "resources/images/backgrounds/wooden_study.png",
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
               ),
               Center(
                 child: Container(
-                  color: Colors.red.withOpacity(0.25), //TODO make trans
+                  color: Colors.red.withOpacity(0.25), //TODO make transparent
                   padding: EdgeInsets.all(screenWidth / 10),
                   child: Column(
                       //

@@ -27,16 +27,17 @@ class HomeScreen extends StatelessWidget {
             children: [
               ElevatedButton(
                   onPressed: () async{
-                    var returnValue = await Navigator.push(
+                    var result = await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context)=> const BlitzScreen(
-                              initialGameTime: 10,
+                              initialGameTime: 180,
                               initialWordList: [],
+                              initialGridLayout: null,//null tells it to random
                             )
                         )
                     );
-                    print(returnValue);
+                    print(result);
                     print("finished awaiting in home");
 
 /*                    if(returnValue["screen"] == BlitzScreen){
@@ -48,13 +49,24 @@ class HomeScreen extends StatelessWidget {
                   },
                   child: const Text("navigate to blitzscreen")),
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async{
+                    var result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context)=> const AnalysisScreen()
-                        )
+                        builder: (context)=> const AnalysisScreen(
+                          gridLayout: ["G","Q","R","P",
+                            "G","Q","R","G",
+                            "G","Q","R","G",
+                            "G","Q","R","G",],
+                          initialList: ["BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","AAAAAAAAAAAAAAAA","IIIIIIIIIIIIIIII",
+                            "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",
+                            "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",
+                            "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",
+                            "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",
+                            "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",],//temporarily here for debugging
+                        ))
                     );
+                    print(result);
                   },
                   child: const Text("navigate to analysis")),
               ElevatedButton(

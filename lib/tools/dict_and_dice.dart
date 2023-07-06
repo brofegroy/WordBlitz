@@ -39,8 +39,6 @@ class Dict{
 
   static Future<bool> load() async {
     ///returns true if error detected, false once it finishes loading
-    print('reached here');
-
     isDictLoading = true;
     final String fileContent = await rootBundle.loadString(dictPath);
     txt = await _processFileContent(fileContent);
