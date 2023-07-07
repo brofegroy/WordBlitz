@@ -232,7 +232,8 @@ class _WordTileWidget extends StatelessWidget {
                     ValueListenableBuilder(
                         valueListenable: controller.submitCalledNotifier,
                         builder: (context,submitDummyParam,_){
-                          return (controller.strikethroughStateNotifierList[wordIndex].value)
+                          return (controller.isWordBeenRemovedNotifierList[wordIndex].value
+                              || ! controller.hasUserTriggeredSubmit)
                               ? Container(
                             height: allocatedHeight,
                             width: allocatedWidth,
@@ -241,7 +242,9 @@ class _WordTileWidget extends StatelessWidget {
                               : Container(
                             height: allocatedHeight,
                             width: allocatedWidth,
-                            color: tileBackgroundColour,
+                            color: (controller.wordScoreList[wordIndex]>0)
+                                ? Colors.green.withOpacity(0.5)
+                                : Colors.red.withOpacity(0.5),
                           );
                         }
                     ),
@@ -252,9 +255,9 @@ class _WordTileWidget extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: ValueListenableBuilder(
-                            valueListenable: controller.strikethroughStateNotifierList[wordIndex],
+                            valueListenable: controller.isWordBeenRemovedNotifierList[wordIndex],
                             builder: (context,isStrikedThrough,_){
-                              return (controller.strikethroughStateNotifierList[wordIndex].value)
+                              return (controller.isWordBeenRemovedNotifierList[wordIndex].value)
                                 ? Text(
                                 controller.initialList[wordIndex],
                                 style: TextStyle(

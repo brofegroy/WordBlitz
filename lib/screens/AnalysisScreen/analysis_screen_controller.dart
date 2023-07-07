@@ -6,12 +6,13 @@ class AnalysisScreenController{
   //variables
   final BuildContext context;
   List<String> initialList = [];
+  List<int> wordScoreList = [];
   List<String>? gridLayout;
   int wordScore = 0;
   int penaltyScore = 0;
-  List<int> wordScoreList = [];
+  bool hasUserTriggeredSubmit = false;
   final ValueNotifier<List<int>> submitCalledNotifier= ValueNotifier<List<int>>([0]);
-  late final List<ValueNotifier<bool>> strikethroughStateNotifierList;
+  late final List<ValueNotifier<bool>> isWordBeenRemovedNotifierList;
   //
   // getters,setters
   get totalScore => wordScore + penaltyScore;
@@ -23,7 +24,8 @@ class AnalysisScreenController{
     required this.gridLayout,
   }){
     if ( ! isGridLayoutValid(gridLayout) || ! isInitialListValid(initialList)){navigatorPop();}
-    strikethroughStateNotifierList = List.generate(initialList.length, (index) => ValueNotifier<bool>(false));
+    isWordBeenRemovedNotifierList = List.generate(initialList.length, (index) => ValueNotifier<bool>(false));
+    checkCorrectWords();
   }
   //
 
@@ -80,8 +82,8 @@ class AnalysisScreenController{
   List<bool> getRemovedWordsState(){
     //removes the booleans from each individual value notifier and puts them in a list.
     List<bool> outputList = [];
-    for (int i=0;i<strikethroughStateNotifierList.length;i++){
-      outputList.add(strikethroughStateNotifierList[i].value);
+    for (int i=0;i<isWordBeenRemovedNotifierList.length;i++){
+      outputList.add(isWordBeenRemovedNotifierList[i].value);
     }
     return outputList;
   }
@@ -94,26 +96,27 @@ class AnalysisScreenController{
       wordScoreList.add(score);
     }
   }
-  void addScore(int score){
+  void addScore(int index){
+    int score = wordScoreList[index];
     if (score > 0 ){wordScore += score;}
     else{penaltyScore += score;}
   }
   void handleSubmit(){
     wordScore = 0;
     penaltyScore = 0;
-    List<bool> removedWordsState = getRemovedWordsState();
-    for (int i=0;i<removedWordsState.length;i++){
-      if(!removedWordsState[i]){
-        int score = ScoreCounter.countScore(initialList[i]);
-        addScore(score);
+    hasUserTriggeredSubmit = true;
+    List<bool> isWordBeenRemovedList = getRemovedWordsState();
+    for (int i=0;i<isWordBeenRemovedList.length;i++){
+      if(!isWordBeenRemovedList[i]){
+        addScore(i);
       }
     }
-    //triggers summit event
+    //triggers submit refresh event
     submitCalledNotifier.value = [totalScore];
   }
 
   void handleOnTapped(index){
-    strikethroughStateNotifierList[index].value = !strikethroughStateNotifierList[index].value;
+    isWordBeenRemovedNotifierList[index].value = !isWordBeenRemovedNotifierList[index].value;
   }
 
 }

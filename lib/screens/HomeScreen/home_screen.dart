@@ -11,13 +11,15 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     HomeScreenController controller = HomeScreenController();
+    double titleWidth = screenSize.width * 0.8 / 10;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Center(
         child: Container(
           padding:
-              EdgeInsets.all(/*50*/ screenWidth /6), ///[Hardcoded]
+              EdgeInsets.all(/*50*/ screenSize.width /10), ///[Hardcoded]
           child: Column(
             //
             //
@@ -25,6 +27,25 @@ class HomeScreen extends StatelessWidget {
             //
             //
             children: [
+              Image.asset(
+                  "resources/images/title_screen_image.png"
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children:
+                  List<Widget>.generate(4, (index) => Image.asset(
+                    "resources/images/tile_images/${"word"[index]}_tile.png",
+                    width: titleWidth,
+                  ))
+                      +
+                  [SizedBox(width: titleWidth/3,)]
+                      +
+                  List<Widget>.generate(5, (index) => Image.asset(
+                    "resources/images/tile_images/${"blitz"[index]}_tile.png",
+                    width: titleWidth,
+                  ))
+              ),
+              Divider(),
               ElevatedButton(
                   onPressed: () async{
                     var result = await Navigator.push(
@@ -47,9 +68,9 @@ class HomeScreen extends StatelessWidget {
                       print(returnValue);
                     }//TODO handle return values*/
                   },
-                  child: const Text("navigate to blitzscreen")),
-              ElevatedButton(
-                  onPressed: () async{
+                  child: const Text("Play WordBlitz")),
+              const ElevatedButton(
+                  onPressed: null,/*() async{
                     var result = await Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -67,30 +88,20 @@ class HomeScreen extends StatelessWidget {
                         ))
                     );
                     print(result);
-                  },
+                  },*/
+                  /// temporarily disabled for alpha release 1
                   child: const Text("navigate to analysis")),
-              ElevatedButton(
-                  onPressed: () {
+              const ElevatedButton(
+                  onPressed: null,/*() {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context)=> const SettingsScreen()
                         )
                     );
-                  },
+                  },*/
+                  /// temporarily disabled for alpha release 1
                   child: const Text("navigate to settings")),
-              
-              Image.asset(
-                "resources/images/title_screen_image.png"
-              ),
-              
-              Flexible(
-                fit: FlexFit.tight,
-                child: Container(
-                  color: Colors.blue,
-                  child: const Text("remaining space"),
-                ),
-              ),
             ],
             //
             //

@@ -50,7 +50,7 @@ class BlitzScreen extends StatelessWidget {
               ),
               Center(
                 child: Container(
-                  color: Colors.red.withOpacity(0.25), //TODO make transparent
+                  color: Colors.red.withOpacity(0), //TODO remove
                   padding: EdgeInsets.all(screenWidth / 10),
                   child: Column(
                       //
@@ -59,15 +59,29 @@ class BlitzScreen extends StatelessWidget {
                       //
                       //
                       children: [
-                        Row(
-                          children: [
-                            ScoreCardWidget(controller: controller),
-                            SizedBox(
-                              width: 50,
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(screenWidth/15)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(screenWidth/15),
+                              border: Border.all(
+                                  width: 2, color: Colors.black),
+                              color: Colors.white,
                             ),
-                            GameTimeWidget(controller: controller),
-                          ],
+                            padding: EdgeInsets.only(left: 20),
+
+                            child: Row(
+                              children: [
+                                ScoreCardWidget(controller: controller),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                                GameTimeWidget(controller: controller),
+                              ],
+                            ),
+                          ),
                         ),
+                        Divider(),
                         BlitzGrid(
                           controller: controller,
                           gridSize: gridSize,
@@ -125,7 +139,6 @@ class RecentWordsWidget extends StatelessWidget {
     );
   }
 }
-
 class DismissibleWordsSubwidget extends StatelessWidget {
   final BlitzScreenController controller;
   final double height;
@@ -169,7 +182,10 @@ class GameTimeWidget extends StatelessWidget {
     return ValueListenableBuilder(
         valueListenable: controller.gameTimerNotifier,
         builder: (context, gameTimer, _) {
-          return Text("Time left $gameTimer seconds");
+          return Container(
+            color: Colors.white,
+              child: Text("Time left $gameTimer seconds")
+          );
         });
   }
 }
