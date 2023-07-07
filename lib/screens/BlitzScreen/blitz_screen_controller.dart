@@ -127,7 +127,7 @@ class BlitzScreenController{
     navigateToAnalysis();
   }
   void navigateToAnalysis() async{
-    Navigator.pop(context,
+    /*Navigator.pop(context,
       await Navigator.push(context,
         MaterialPageRoute(
             builder: (context) => AnalysisScreen(
@@ -136,7 +136,16 @@ class BlitzScreenController{
             )
         )
       )
+    );*/ //TODO desired but unstable
+    var result = await Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) => AnalysisScreen(
+              initialList: _model.submittedList,
+              gridLayout: gridLayout,
+            )
+        )
     );
+    Navigator.pop(context,result);
   }
   void navigatorPop(){
     Navigator.pop(context,{
