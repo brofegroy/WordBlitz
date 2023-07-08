@@ -44,7 +44,8 @@ it will return a dictionary with 3 parameters:
    builder: (context) => const AnalysisScreen()
    )));}
 if timer ends, it pops using navigateToAnalysis() and with the second argument in pop,
-it returns a Future of whatever AnalysisScreen() returns. 
+it returns a Future of whatever AnalysisScreen() returns.
+note that transmitting data through multiple screens seem to have some issues,so im going to use a separate tool class, staticNavData, to transmit info.
 
 ## Dependencies
 -external libraries dependencies **currently outdated, mav have more dependencies now**

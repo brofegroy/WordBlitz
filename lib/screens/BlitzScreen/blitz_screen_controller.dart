@@ -4,8 +4,8 @@ import 'package:tuple/tuple.dart';
 
 //import dependencies
 import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
-import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
 import 'package:wordblitz/tools/dict_and_dice.dart';
+import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
 import 'blitz_screen_model.dart';
 import 'blitz_screen_utils//drag_position.dart';
 //
