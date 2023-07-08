@@ -49,5 +49,11 @@ Choose what you want to do here
 put your suggestions for items to put into TODO Overview here
 
 - example_idea1: description of example idea1 lorem ipsum dolor sit amet
--
+- algorithm for words solvable
+- quizzlet type for 4 letter groups
+- statistics for tracking wrong/missed words to correct ratio
+- daily competition
+- PVP (?)
+- value ratio pairs(?)
+- finish?
 
