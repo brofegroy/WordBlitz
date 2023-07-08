@@ -48,7 +48,7 @@ it returns a Future of whatever AnalysisScreen() returns.
 note that transmitting data through multiple screens seem to have some issues,so im going to use a separate tool class, staticNavData, to transmit info.
 
 ## Dependencies
--external libraries dependencies **currently outdated, mav have more dependencies now**
+-external libraries dependencies
 import 'dart:math';
 import 'dart:ui';
 import 'package:tuple/tuple.dart';

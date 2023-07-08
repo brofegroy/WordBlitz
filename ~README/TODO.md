@@ -3,7 +3,7 @@ Welcome to the TODO file instructions!
 The file serves as a guide to track the progress of the project and assign tasks to collaborators.
 Here is where you can get started and contribute to the project.
 
-If you are looking for the actual [active TODO.md](https://github.com/brofegroy/WordBlitz/blob/TODO/~README/TODO.md#currently-editing),
+If you are looking for the actual [active TODO.md](https://github.com/brofegroy/WordBlitz/blob/TODO/TODO.md#currently-editing),
 it is in the TODO branch of this repo, master branch's TODO.md only serves as instructions on how to use that TODO.
 This is to reduce the number of commits that is just dedicated to updating file usage states.
 
