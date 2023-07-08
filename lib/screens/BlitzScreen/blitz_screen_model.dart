@@ -109,7 +109,7 @@ class BlitzScreenModel{
     currentWordScore += max(scoreChange, 0);
     currentPenaltyScore += min(scoreChange,0);
   }
-  void reInitialise(initialList){
+  void initialiseWords(initialList){
     for (String word in initialList){
       print("reinitialised $word");
       int score = ScoreCounter.countScore(word);

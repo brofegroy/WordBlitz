@@ -12,7 +12,7 @@ class AnalysisScreenController{
   int penaltyScore = 0;
   bool hasUserTriggeredSubmit = false;
   final ValueNotifier<List<int>> submitCalledNotifier= ValueNotifier<List<int>>([0]);
-  late final List<ValueNotifier<bool>> isWordBeenRemovedNotifierList;
+  late final List<ValueNotifier<bool>> isWordBeenRemovedNotifierList = List.generate(initialList.length, (index) => ValueNotifier<bool>(false));
   //
   // getters,setters
   get totalScore => wordScore + penaltyScore;
@@ -23,9 +23,10 @@ class AnalysisScreenController{
     required this.initialList,
     required this.gridLayout,
   }){
-    if ( ! isGridLayoutValid(gridLayout) || ! isInitialListValid(initialList)){navigatorPop();}
-    isWordBeenRemovedNotifierList = List.generate(initialList.length, (index) => ValueNotifier<bool>(false));
-    checkCorrectWords();
+    if ( ! isGridLayoutValid(gridLayout) || ! isInitialListValid(initialList)){
+      navigatorPop(); //TODO include logic for invalid construction here
+    }
+    generateCorrectWordsList();
   }
   //
 
@@ -66,16 +67,20 @@ class AnalysisScreenController{
   }
 
   bool handleOnWillPop(){
-    navigatorPop();
+
+    navigatorPop(
+
+    );
     return true;
   }
   void navigatorPop(){
     Navigator.pop(context,{
       "screen": AnalysisScreen,
+      "submittedStatus": hasUserTriggeredSubmit,
       "score": totalScore,
       "initialList": initialList,
       "gridLayout": gridLayout,
-      "cancelled words": getRemovedWordsState(),
+      "cancelledWords": getRemovedWordsState(),
     });
   }
 
@@ -87,7 +92,7 @@ class AnalysisScreenController{
     }
     return outputList;
   }
-  void checkCorrectWords(){
+  void generateCorrectWordsList(){
     wordScore = 0;
     penaltyScore = 0;
     wordScoreList = [];
