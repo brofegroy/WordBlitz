@@ -58,6 +58,6 @@ The dedicated README file within each screen's folder should highlights the cruc
 7. Merge Master into your branch.(since this is a small scale project)
 8. Send a pull request to merge your branch into main.
 
-- avoid editing files not marked by you within [~README/TODO.md](https://github.com/brofegroy/WordBlitz/blob/TODO/~README/TODO.md#currently-editing) to reduce merge conflicts.
+- avoid editing files not marked by you within [~README/TODO.md](https://github.com/brofegroy/WordBlitz/blob/TODO//TODO.md#currently-editing) to reduce merge conflicts.
 
 ## If you have anymore questions, feel free to contact the owner of this repo. Happy Coding!
