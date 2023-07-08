@@ -7,7 +7,7 @@ It will generate a fresh board if constructed without any arguments.
 
 It has a timer running the moment this screen loads up, and when it reaches 0 or is initially less than 0,
 it will remove this current screen from the stack,then push the an instance of AnalysisScreen.
-It returns a Future of the return value of AnalysisScreen.
+It returns a Future of the return value of AnalysisScreen. //**currently outdated, will update a value in tools instead,currently undetermined**
 
 If this screen was exited prematurely, before the timer reaches 0,
 and if it uses the navigatorPop() method within the controller,
@@ -47,7 +47,7 @@ if timer ends, it pops using navigateToAnalysis() and with the second argument i
 it returns a Future of whatever AnalysisScreen() returns. 
 
 ## Dependencies
--external libraries dependencies
+-external libraries dependencies **currently outdated, mav have more dependencies now**
 import 'dart:math';
 import 'dart:ui';
 import 'package:tuple/tuple.dart';

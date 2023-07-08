@@ -10,19 +10,14 @@ class HomeScreenController{
   ValueNotifier<Map<String, dynamic>?> continueBlitzScreenDataNotifier = ValueNotifier<Map<String, dynamic>?>(null);
   HomeScreenController({required this.context}){}
 
-  void handlePlayWordBlitz() async{
-    continueBlitzScreenDataNotifier.value = null;
-    var incomingGameData = await utilsContinueBlitzGameLogic.navigateToWordBlitz(context);
-    continueBlitzScreenDataNotifier.value = incomingGameData;
-    isBlitzContinueEnabled = continueBlitzScreenDataNotifier.value != null;
-  }
-  void handleContinueWordBlitz() async{
-    Map<String, dynamic>? previousBlitzData = continueBlitzScreenDataNotifier.value;
+  void handlePlayWordBlitz({bool isContinuing=false}) async{
+    Map<String, dynamic>? previousBlitzData = (isContinuing)?continueBlitzScreenDataNotifier.value:null;
     continueBlitzScreenDataNotifier.value = null;
     var incomingGameData = await utilsContinueBlitzGameLogic.navigateToWordBlitz(context, previousBlitzData: previousBlitzData);
     print("incomingGameData is $incomingGameData");
     continueBlitzScreenDataNotifier.value = incomingGameData;
     isBlitzContinueEnabled = continueBlitzScreenDataNotifier.value != null;
   }
+
 
 }
