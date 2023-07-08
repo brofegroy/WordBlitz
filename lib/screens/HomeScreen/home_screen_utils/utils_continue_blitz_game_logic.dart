@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:wordblitz/tools/staticNavigationData.dart';
 import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
 import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
 
@@ -17,10 +19,9 @@ class utilsContinueBlitzGameLogic{
             )
         ));
     if (result is! Map<String, dynamic>){return null;}
-    Map<String, dynamic> gameData = result;
-    print("gamedata at home utils is $gameData");
-    if (identical(gameData["screen"] , AnalysisScreen)){return null;}
-    else {print("gameData[screen] is ${gameData["screen"]}");return gameData;}
+    staticNavData.data = result;
+    if (identical(staticNavData.data["screen"] , AnalysisScreen)){return null;}
+    else {print("gameData[screen] is ${staticNavData.data["screen"]}");return staticNavData.data ;}
   }
 
 
