@@ -23,14 +23,14 @@ Choose what you want to do here
 
 ### Bugs
 - Blitzscreen currently does not display Qu tile as intended in an actual classic game(was not implemented yet), it displays it as Q instead
-- Looking up a deactivated widget is unsafe ( cause and effects of bug unknown, very likely due to timer running when screen has been popped. )
+- Looking up a deactivated widget is unsafe ( cause and effects of bug unknown, almost definitely something to do with timer running when screen has been popped. )
 - sometimes blitzscreen navigate gets called twice(?) successively, second call results in an empty analysis screen.
 - 
 
 ### TODO now
 - Analysis Screen Colours
 - Settings base screen
-- Blitzscreen to support pausing/pause button in homescreen <- cy is working on this
+- static navigation results log tool <- cy is working on this
 - 
 
 ### Features on hold 
