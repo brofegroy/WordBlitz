@@ -42,6 +42,7 @@ class BlitzScreenController{
   BlitzScreenController({
     required this.context,
     required this.screenSize,
+    required int initialGameTime,
     List<String>? initialWordList,
     List<String>? initialGridLayout,
   }){
@@ -50,16 +51,16 @@ class BlitzScreenController{
     Dice.txt
     [List<int>.unmodifiable(List.generate(16, (index) => index)..shuffle())[index]]
     [List<int>.unmodifiable(List.generate(16, (_) => random.nextInt(6)))[index]]);
-    print(gridLayout);
     screenWidth = screenSize.width;
     gridSize = screenWidth * 0.8;//[Hardcoded]
+    gameTimerNotifier.value = initialGameTime;
 
     _model = BlitzScreenModel(gridLayout);
     _model.resetGrid = resetHighlightGrid;
     _model.updateGrid = updateHighlightGrid;
     _model.updateDisplayScore = updateScore;
     _model.updateUIWordList = updateRecentWords;
-    _model.reInitialise(initialWordList??[]);
+    _model.initialiseWords(initialWordList??[]);
     getRecentSubmittedWords();
     updateScore();
 
@@ -127,25 +128,17 @@ class BlitzScreenController{
     navigateToAnalysis();
   }
   void navigateToAnalysis() async{
-    /*Navigator.pop(context,
+    var submittedList = await _model.submittedList;
+    Navigator.pop(context,
       await Navigator.push(context,
         MaterialPageRoute(
             builder: (context) => AnalysisScreen(
-              initialList: _model.submittedList,
+              initialList: submittedList,
               gridLayout: gridLayout,
             )
         )
       )
-    );*/ //TODO desired but unstable
-    var result = await Navigator.push(context,
-        MaterialPageRoute(
-            builder: (context) => AnalysisScreen(
-              initialList: _model.submittedList,
-              gridLayout: gridLayout,
-            )
-        )
     );
-    Navigator.pop(context,result);
   }
   void navigatorPop(){
     Navigator.pop(context,{
@@ -155,11 +148,10 @@ class BlitzScreenController{
       "gridLayout":gridLayout,
     });
   }
-  Future<bool> handleOnWillPop()async{
+  void handleOnWillPop(){
     print("gameTimerNotifier.value is ${gameTimerNotifier.value}");
     print("needs to implement double click back button to confirm exit/ or a backbutton");//TODO
     navigatorPop();
-    return false;
   }
   //
 }

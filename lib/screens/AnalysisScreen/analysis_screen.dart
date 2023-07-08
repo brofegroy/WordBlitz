@@ -66,14 +66,21 @@ class _AnalysisScreenMainColumnWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                  onPressed: (){controller.handleSubmit();},
-                  child:const Row(
-                    children: [
-                      Text("Submit Words!"),
-                      Icon(Icons.control_point_sharp)
-                    ],
-                  )
+              ValueListenableBuilder(
+                  valueListenable: controller.submitCalledNotifier,
+                  builder: (context,totalScoreDummyParam,_) {
+                    return ElevatedButton(
+                        onPressed: (controller.hasUserTriggeredSubmit)
+                            ? null
+                            : ((){controller.handleSubmit();}),
+                        child:const Row(
+                          children: [
+                            Text("Submit Words!"),
+                            Icon(Icons.control_point_sharp)
+                          ],
+                        )
+                    );
+                  }
               ),
               Container(
                 color: Colors.white.withOpacity(0),//TODO remove this
