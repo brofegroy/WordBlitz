@@ -21,4 +21,7 @@ class utilsContinueBlitzGameLogic{
         ));
     staticNavData.data = result;
   }
+
+
+
 }
