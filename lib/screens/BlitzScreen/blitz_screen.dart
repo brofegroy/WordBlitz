@@ -27,7 +27,7 @@ class BlitzScreen extends StatelessWidget {
     final controller = BlitzScreenController(
       context: context,
       screenSize: MediaQuery.of(context).size,
-      initialWordList: initialWordList??[],
+      initialWordList: initialWordList,
       initialGridLayout: initialGridLayout,
       initialGameTime: initialGameTime,
     );

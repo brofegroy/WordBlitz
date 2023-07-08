@@ -76,11 +76,11 @@ class AnalysisScreenController{
   void navigatorPop(){
     Navigator.pop(context,{
       "screen": AnalysisScreen,
-      "SubmittedStatus": hasUserTriggeredSubmit,
+      "submittedStatus": hasUserTriggeredSubmit,
       "score": totalScore,
       "initialList": initialList,
       "gridLayout": gridLayout,
-      "cancelled words": getRemovedWordsState(),
+      "cancelledWords": getRemovedWordsState(),
     });
   }
 

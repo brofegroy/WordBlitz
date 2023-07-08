@@ -12,9 +12,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    HomeScreenController controller = HomeScreenController();
-    double titleWidth = screenSize.width * 0.8 / 10;
-    double screenWidth = MediaQuery.of(context).size.width;
+    HomeScreenController controller = HomeScreenController(
+      context: context,
+    );
     return Scaffold(
       body: Center(
         child: Container(
@@ -27,48 +27,22 @@ class HomeScreen extends StatelessWidget {
             //
             //
             children: [
-              Image.asset(
-                  "resources/images/title_screen_image.png"
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children:
-                  List<Widget>.generate(4, (index) => Image.asset(
-                    "resources/images/tile_images/${"word"[index]}_tile.png",
-                    width: titleWidth,
-                  ))
-                      +
-                  [SizedBox(width: titleWidth/3,)]
-                      +
-                  List<Widget>.generate(5, (index) => Image.asset(
-                    "resources/images/tile_images/${"blitz"[index]}_tile.png",
-                    width: titleWidth,
-                  ))
-              ),
+              Image.asset("resources/images/title_screen_image.png"),
+              wordBlitzTitleLettersWidget(titleWidth: screenSize.width * 0.8 / 10),
               Divider(),
               ElevatedButton(
-                  onPressed: () async{
-                    var result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context)=> const BlitzScreen(
-                              initialGameTime: 10,
-                              initialWordList: [],
-                              initialGridLayout: null,//null tells it to random
-                            )
-                        )
-                    );
-                    print(result);
-                    print("finished awaiting in home");
-
-/*                    if(returnValue["screen"] == BlitzScreen){
-                      print(returnValue);
-                    }
-                    if(returnValue["screen"] == AnalysisScreen){
-                      print(returnValue);
-                    }//TODO handle return values*/
-                  },
+                  onPressed: controller.handlePlayWordBlitz,
                   child: const Text("Play WordBlitz")),
+              ValueListenableBuilder(
+                valueListenable: controller.continueBlitzScreenDataNotifier,
+                builder: (context,gameData,_) {
+                  return ElevatedButton(
+                      onPressed: (controller.isBlitzContinueEnabled)
+                          ? controller.handleContinueWordBlitz
+                          : null,
+                      child: const Text("Continue WordBlitz"));
+                }
+              ),
               const ElevatedButton(
                   onPressed: null,/*() async{
                     var result = await Navigator.push(
@@ -114,3 +88,28 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+class wordBlitzTitleLettersWidget extends StatelessWidget {
+  final double titleWidth;
+  const wordBlitzTitleLettersWidget({required this.titleWidth,});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children:
+        List<Widget>.generate(4, (index) => Image.asset(
+          "resources/images/tile_images/${"word"[index]}_tile.png",
+          width: titleWidth,
+        ))
+            +
+            [SizedBox(width: titleWidth/3,)]
+            +
+            List<Widget>.generate(5, (index) => Image.asset(
+              "resources/images/tile_images/${"blitz"[index]}_tile.png",
+              width: titleWidth,
+            ))
+    );
+  }
+}
+
