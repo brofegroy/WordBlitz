@@ -22,7 +22,7 @@ For a screen named "QuorumKazakh", the files and folder structure would look lik
 
 - /lib/screens/QuorumKazakh/quorum_kazakh_screen.dart
 - /lib/screens/QuorumKazakh/quorum_kazakh_controller.dart
-- /lib/screens/QuorumKazakh/quorum_kazakh_model.dart
+- /lib/screens/QuorumKazakh/quorum_kazakh_model.dart (if required)
 - /lib/screens/QuorumKazakh/quorum_kazakh_utils/ (if required)
 - /lib/screens/QuorumKazakh/quorum_kazakh_utils/quorum_kazakh.md
 

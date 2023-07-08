@@ -15,10 +15,7 @@ class HomeScreenController{
     Map<String, dynamic>? previousBlitzData = (isContinuing)?continueBlitzScreenDataNotifier.value:null;
     continueBlitzScreenDataNotifier.value = null;
     var dummyVar = await utilsContinueBlitzGameLogic.navigateToWordBlitz(context, previousBlitzData: previousBlitzData);
-    print("incomingGameData is ${staticNavData.data}");
-    continueBlitzScreenDataNotifier.value = await staticNavData.data;
+    continueBlitzScreenDataNotifier.value = staticNavData.data;
     isBlitzContinueEnabled = (continueBlitzScreenDataNotifier.value != null)?(identical(continueBlitzScreenDataNotifier.value?["screen"], BlitzScreen)):false;
   }
-
-
 }
