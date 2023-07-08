@@ -9,7 +9,10 @@ The instructions on how to use this TODO is in master Branch's [/~README/TODO.md
 choose your files here to begin:
 ### Screens
 - Analysis/
+- analysis controller <- cy si working on this
 - Blitzscreen/
+- blitzcontroller <- cy is working on this
+- Homescreen/ <- cy is working on this
 ### tools
 - 
 
@@ -20,11 +23,12 @@ Choose what you want to do here
 
 ### Bugs
 - Blitzscreen currently does not display Qu tile as intended in an actual classic game(was not implemented yet), it displays it as Q instead
-- 
+- Looking up a deactivated widget is unsafe, fix navigation.
 
 ### TODO now
 - Analysis Screen Colours
 - Settings base screen
+- fix Navigation. <- cy working on this
 
 ### Features on hold 
 - Blitzscreen supports multiple Q dice
