@@ -13,6 +13,7 @@ choose your files here to begin:
 - Blitzscreen/
 - blitzcontroller <- cy is working on this
 - Homescreen/ <- cy is working on this
+- settings screen <- cy is working on this
 ### tools
 - 
 
@@ -29,8 +30,7 @@ Choose what you want to do here
 
 ### TODO now
 - Analysis Screen Colours
-- Settings base screen
-- static navigation results log tool <- cy is working on this
+- Settings base screen <- cy is working on this
 - 
 
 ### Features on hold 
