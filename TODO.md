@@ -9,11 +9,11 @@ The instructions on how to use this TODO is in master Branch's [/~README/TODO.md
 choose your files here to begin:
 ### Screens
 - Analysis/
-- analysis controller <- cy is working on this
+- analysis controller
 - Blitzscreen/
-- blitzcontroller <- cy is working on this
+- blitzcontroller
 - Homescreen/ <- cy is working on this
-- settings screen <- cy is working on this
+- settings screen
 - 
 ### tools
 - calculate all possible words, 4x4 version and 2x2 version.
