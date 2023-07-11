@@ -5,8 +5,12 @@ import 'package:wordblitz/tools/config.dart';
 
 class SettingsScreenController{
   BuildContext context;
-  ValueNotifier<String?> dropdown1ValueListenable = ValueNotifier<String?>("item1");
-  ValueNotifier<double> blitzDurationListenable = ValueNotifier<double>(Config.blitzDuration);
+
+  ValueNotifier<double> blitzDurationNotifier = ValueNotifier<double>(Config.blitzDuration);
+  ValueNotifier<bool> isNightModeNotifier = ValueNotifier<bool>(false);
+
+  ValueNotifier<String?> dropdown1ValueNotifier = ValueNotifier<String?>("item1");
+  ValueNotifier<bool> switchTestBoolNotifier = ValueNotifier<bool>(false);
 
   SettingsScreenController({required this.context}){
     print("settings screen controller initialised");
@@ -18,16 +22,26 @@ class SettingsScreenController{
   }
 
   void handleBlitzDurationSliderChanged(double value){
-    blitzDurationListenable.value = value.roundToDouble();
+    blitzDurationNotifier.value = value.roundToDouble();
   }
   void handleBlitzDurationSliderChangedEnd(double value){
-    blitzDurationListenable.value = value.roundToDouble();
+    blitzDurationNotifier.value = value.roundToDouble();
     Config.changeBlitzDuration(value.roundToDouble());
   }
 
-  void handleDropdown1Changed(String? value){
-    dropdown1ValueListenable.value = value;
+  void handleNightModeChanged(bool value){
+    isNightModeNotifier.value = value;
+    Config.changeIsNightMode(value);
   }
 
+
+
+  void handleDropdown1Changed(String? value){
+    dropdown1ValueNotifier.value = value;
+  }
+
+  void handleTestSwitchChanged(bool value){
+    switchTestBoolNotifier.value = value;
+  }
 
 }
