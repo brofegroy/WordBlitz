@@ -38,7 +38,7 @@ Choose what you want to do here
 - Figure out how to detect exiting the app, so we can save state before exiting.
 - BlitzScreen to be able to be initialised in uneditable mode.(onlys to display board.
 - Blitzscreen to allow repeat words
-- 
+- Infinite duration blitz
 
 ### Less important features
 - 
