@@ -23,7 +23,7 @@ class BlitzScreenController{
   late final double screenWidth;
   late final double gridSize;
   late final ValueNotifier<List<String>> recentWordsNotifier = ValueNotifier<List<String>>([]);
-  final ValueNotifier<int> gameTimerNotifier = ValueNotifier<int>(180);
+  final ValueNotifier<double> gameTimerNotifier = ValueNotifier<double>(180);
   final ValueNotifier<int> currentScoreNotifier = ValueNotifier<int>(0);
   final ValueNotifier<BoolMatrix> isHighlightedNotifier = ValueNotifier<BoolMatrix>(BoolMatrix.unmodifiable([
     [false, false, false, false],
@@ -42,7 +42,7 @@ class BlitzScreenController{
   BlitzScreenController({
     required this.context,
     required this.screenSize,
-    required int initialGameTime,
+    required double initialGameTime,
     List<String>? initialWordList,
     List<String>? initialGridLayout,
   }){

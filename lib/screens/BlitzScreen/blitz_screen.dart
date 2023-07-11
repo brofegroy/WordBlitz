@@ -6,7 +6,7 @@ import 'blitz_screen_controller.dart';
 
 class BlitzScreen extends StatelessWidget {
   ///pass in these 3 parameters as null to get default values and random board state
-  final int initialGameTime;
+  final double initialGameTime;
   final List<String>? initialWordList;
   final List<String>? initialGridLayout;
 

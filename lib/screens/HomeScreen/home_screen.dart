@@ -21,6 +21,7 @@ class HomeScreen extends StatelessWidget {
         child: Scaffold(
           body: Center(
             child: Container(
+              color: Colors.white,
               padding:
                   EdgeInsets.all(/*50*/ screenSize.width /10), ///[Hardcoded]
               child: Column(
@@ -40,11 +41,19 @@ class HomeScreen extends StatelessWidget {
                   ValueListenableBuilder(
                     valueListenable: controller.continueBlitzScreenDataNotifier,
                     builder: (context,gameData,_) {
-                      return ElevatedButton(
-                          onPressed: (controller.isBlitzContinueEnabled)
-                              ? (){controller.handlePlayWordBlitz(isContinuing: true);}
-                              : null,
-                          child: const Text("Continue WordBlitz"));
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              onPressed: (controller.isBlitzContinueEnabled)
+                                  ? (){controller.handlePlayWordBlitz(isContinuing: true);}
+                                  : null,
+                              child: const Text("Continue WordBlitz")),
+                          IconButton(
+                              onPressed: null,
+                              icon: Icon(Icons.delete)),
+                        ],
+                      );
                     }
                   ),
 
@@ -70,15 +79,15 @@ class HomeScreen extends StatelessWidget {
                       },*/
                       /// temporarily disabled for alpha release 1
                       child: const Text("navigate to analysis")),
-                  const ElevatedButton(
-                      onPressed: null,/*() {
+                  ElevatedButton(
+                      onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context)=> const SettingsScreen()
                             )
                         );
-                      },*/
+                      },
                       /// temporarily disabled for alpha release 1
                       child: const Text("navigate to settings")),
                 ],
