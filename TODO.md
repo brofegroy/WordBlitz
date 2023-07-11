@@ -32,7 +32,7 @@ Choose what you want to do here
 - Analysis Screen show board
 - More settings options
 - Puzzle mode 2x2 board
-- statictics.
+- gameStats <-cy working on this
 
 ### Features on hold 
 - Blitzscreen supports multiple Q dice
