@@ -26,22 +26,22 @@ Choose what you want to do here
 
 ### Bugs
 - Blitzscreen currently does not display Qu tile as intended in an actual classic game(was not implemented yet), it displays it as Q instead
-- Looking up a deactivated widget is unsafe ( cause and effects of bug unknown, almost definitely something to do with timer running when screen has been popped. )
-- sometimes blitzscreen navigate gets called twice(?) successively, second call results in an empty analysis screen.
 - 
 
 ### TODO now
-- Analysis Screen Colours
-- Settings base screen <- cy is working on this
-- 
+- Analysis Screen show board
+- More settings options
+- Puzzle mode 2x2 board
+- statictics.
 
 ### Features on hold 
 - Blitzscreen supports multiple Q dice
 - Figure out how to detect exiting the app, so we can save state before exiting.
-- BlitzScreen to be able to be initialised in uneditable mode.(onlys to display board.
+- BlitzScreen to be able to be initialised in uneditable mode.(onlys to display board.)
 - Blitzscreen to allow repeat words
 - Infinite duration blitz
 - night mode
+- 
 
 ### Less important features
 - 
