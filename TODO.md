@@ -14,7 +14,9 @@ choose your files here to begin:
 - blitzcontroller <- cy is working on this
 - Homescreen/ <- cy is working on this
 - settings screen <- cy is working on this
+- 
 ### tools
+- calculate all possible words, 4x4 version and 2x2 version.
 - 
 
 
@@ -39,6 +41,7 @@ Choose what you want to do here
 - BlitzScreen to be able to be initialised in uneditable mode.(onlys to display board.
 - Blitzscreen to allow repeat words
 - Infinite duration blitz
+- night mode
 
 ### Less important features
 - 
