@@ -11,6 +11,7 @@ class AnalysisScreenController{
   int wordScore = 0;
   int penaltyScore = 0;
   bool hasUserTriggeredSubmit = false;
+  List<bool>? _finalIsWordBeenRemovedList;
   final ValueNotifier<List<int>> submitCalledNotifier= ValueNotifier<List<int>>([0]);
   late final List<ValueNotifier<bool>> isWordBeenRemovedNotifierList = List.generate(initialList.length, (index) => ValueNotifier<bool>(false));
   //
@@ -67,10 +68,7 @@ class AnalysisScreenController{
   }
 
   bool handleOnWillPop(){
-
-    navigatorPop(
-
-    );
+    navigatorPop();
     return true;
   }
   void navigatorPop(){
@@ -80,7 +78,7 @@ class AnalysisScreenController{
       "score": totalScore,
       "initialList": initialList,
       "gridLayout": gridLayout,
-      "cancelledWords": getRemovedWordsState(),
+      "cancelledWords": _finalIsWordBeenRemovedList,
     });
   }
 
@@ -117,11 +115,11 @@ class AnalysisScreenController{
       }
     }
     //triggers submit refresh event
+    _finalIsWordBeenRemovedList = getRemovedWordsState();
     submitCalledNotifier.value = [totalScore];
   }
 
   void handleOnTapped(index){
     isWordBeenRemovedNotifierList[index].value = !isWordBeenRemovedNotifierList[index].value;
   }
-
 }

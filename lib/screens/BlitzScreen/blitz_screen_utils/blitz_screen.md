@@ -53,6 +53,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:tuple/tuple.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 -project dependencies
 import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
