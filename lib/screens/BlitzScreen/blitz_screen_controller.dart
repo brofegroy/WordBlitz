@@ -1,11 +1,16 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
+import 'dart:async';
 
-//import dependencies
+// import dependencies
 import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
+//
+// dependencies within screen's folder
 import 'package:wordblitz/tools/dict_and_dice.dart';
+import 'package:wordblitz/screens/BlitzScreen/blitz_screen_utils/prevent_reload.dart';
 import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
+import 'package:wordblitz/tools/staticNavigationData.dart';
 import 'blitz_screen_model.dart';
 import 'blitz_screen_utils//drag_position.dart';
 //
@@ -22,8 +27,9 @@ class BlitzScreenController{
   final Size screenSize;
   late final double screenWidth;
   late final double gridSize;
-  late final ValueNotifier<List<String>> recentWordsNotifier = ValueNotifier<List<String>>([]);
+  Timer? _timer;
   final ValueNotifier<double> gameTimerNotifier = ValueNotifier<double>(180);
+  late final ValueNotifier<List<String>> recentWordsNotifier = ValueNotifier<List<String>>([]);
   final ValueNotifier<int> currentScoreNotifier = ValueNotifier<int>(0);
   final ValueNotifier<BoolMatrix> isHighlightedNotifier = ValueNotifier<BoolMatrix>(BoolMatrix.unmodifiable([
     [false, false, false, false],
@@ -121,26 +127,40 @@ class BlitzScreenController{
     currentScore = _model.currentWordScore;
   }
   void startBlitzTimer() async{
-    while (gameTimerNotifier.value > 0){
-      await Future.delayed(const Duration(seconds: 1));
-      gameTimerNotifier.value -= 1;
-    }
-    navigateToAnalysis();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (gameTimerNotifier.value < 0){
+        _timer?.cancel();
+        if (PreventReload.shouldNotReNavigate){return;}
+        navigateToAnalysis();
+      } else {
+        gameTimerNotifier.value -= 1;
+      }
+    });
   }
   void navigateToAnalysis() async{
-    var submittedList = await _model.submittedList;
+    PreventReload.shouldNotReNavigate = true;
+    _timer?.cancel();
+    staticNavData.data = {
+      "screen": BlitzScreen,
+      "list":_model.submittedList,
+      "time":gameTimerNotifier.value,
+      "gridLayout":gridLayout,
+    };
     Navigator.pop(context,
       await Navigator.push(context,
         MaterialPageRoute(
             builder: (context) => AnalysisScreen(
-              initialList: submittedList,
-              gridLayout: gridLayout,
+              initialList: staticNavData.data["list"],
+              gridLayout: staticNavData.data["gridLayout"],
             )
         )
       )
     );
+    PreventReload.shouldNotReNavigate = false;
   }
   void navigatorPop(){
+    _timer?.cancel();
+    PreventReload.shouldNotReNavigate = false;
     Navigator.pop(context,{
       "screen": BlitzScreen,
       "list":_model.submittedList,

@@ -88,7 +88,6 @@ class HomeScreen extends StatelessWidget {
                             )
                         );
                       },
-                      /// temporarily disabled for alpha release 1
                       child: const Text("navigate to settings")),
                 ],
                 //

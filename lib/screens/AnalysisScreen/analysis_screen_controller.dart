@@ -122,5 +122,4 @@ class AnalysisScreenController{
   void handleOnTapped(index){
     isWordBeenRemovedNotifierList[index].value = !isWordBeenRemovedNotifierList[index].value;
   }
-
 }

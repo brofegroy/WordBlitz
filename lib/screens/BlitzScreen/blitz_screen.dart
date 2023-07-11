@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 //import screens
 import 'blitz_screen_controller.dart';
+import 'blitz_screen_utils/prevent_reload.dart';
 //
 
 class BlitzScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class BlitzScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (PreventReload.shouldNotReNavigate){print("reloaded this empty screen");return const Placeholder();}
     //constants
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeightRemaining =
@@ -184,7 +186,7 @@ class GameTimeWidget extends StatelessWidget {
         builder: (context, gameTimer, _) {
           return Container(
             color: Colors.white,
-              child: Text("Time left $gameTimer seconds")
+              child: Text("Time left ${gameTimer.toInt()} seconds")
           );
         });
   }

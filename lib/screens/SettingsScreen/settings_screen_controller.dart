@@ -19,7 +19,6 @@ class SettingsScreenController{
 
   void handleBlitzDurationSliderChanged(double value){
     blitzDurationListenable.value = value.roundToDouble();
-    print("cupertino value is now at $value");
   }
   void handleBlitzDurationSliderChangedEnd(double value){
     blitzDurationListenable.value = value.roundToDouble();
