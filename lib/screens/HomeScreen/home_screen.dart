@@ -11,7 +11,9 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
+    Size? size = MediaQuery.of(context).size;
+    final screenSize = Size( ((size.width/size.height)>(5/7)) ? size.height * 5/7 : size.width,size.height );
+    size = null; //do not use this variable
     HomeScreenController controller = HomeScreenController(
       context: context,
     );

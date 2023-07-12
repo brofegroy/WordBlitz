@@ -22,13 +22,17 @@ class BlitzScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     if (PreventReload.shouldNotReNavigate){print("reloaded this empty screen");return const Placeholder();}
     //constants
-    final double screenWidth = MediaQuery.of(context).size.width;
+    Size screenSize = MediaQuery.of(context).size;
+    if ((screenSize.width /screenSize.height) > (5/7)){
+      screenSize = Size((screenSize.height * 5 / 7),screenSize.height);
+    }
+    final double screenWidth = screenSize.width;
     final double screenHeightRemaining =
-        MediaQuery.of(context).size.height - screenWidth * 0.8;
+        screenSize.height - screenWidth * 0.8;
     final double gridSize = screenWidth * 8 / 10; //[Hardcoded]
     final controller = BlitzScreenController(
       context: context,
-      screenSize: MediaQuery.of(context).size,
+      screenSize: screenSize,
       initialWordList: initialWordList,
       initialGridLayout: initialGridLayout,
       initialGameTime: initialGameTime,
@@ -238,21 +242,24 @@ class BlitzGrid extends StatelessWidget {
                         child: ValueListenableBuilder<List<List<bool>>>(
                             valueListenable: controller.isHighlightedNotifier,
                             builder: (context, value, _) {
-                              return Container(
-                                padding: const EdgeInsets.all(0),
-                                height: gridSize / 5,
-                                width: gridSize / 5,
-                                color: controller.isHighlighted[rowNum][colNum]
-                                    ? Colors.yellow
-                                    : null,
-                                child: Image.asset(
-                                  "resources/images/tile_images/${controller.gridLayout[rowNum * 4 + colNum].toLowerCase()}_tile.png",
-                                  fit: BoxFit.contain,
+                              return ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(gridSize / 45)),
+                                child: Container(
+                                  padding: const EdgeInsets.all(3),
+                                  height: gridSize / 5,
+                                  width: gridSize / 5,
+                                  color: controller.isHighlighted[rowNum][colNum]
+                                      ? Colors.yellow
+                                      : null,
+                                  child: Image.asset(
+                                    "resources/images/tile_images/${controller.gridLayout[rowNum * 4 + colNum].toLowerCase()}_tile.png",
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                  /*Container(
+                                  color: Colors.blue,
+                                  child: Text("R$rowNum, C$colNum"),
+                                ),*/
                                 ),
-                                /*Container(
-                                color: Colors.blue,
-                                child: Text("R$rowNum, C$colNum"),
-                              ),*/
                               );
                             }),
                       );
