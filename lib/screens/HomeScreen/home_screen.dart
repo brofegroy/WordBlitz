@@ -44,41 +44,27 @@ class HomeScreen extends StatelessWidget {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton(
-                              onPressed: (controller.isBlitzContinueEnabled)
-                                  ? (){controller.handlePlayWordBlitz(isContinuing: true);}
-                                  : null,
-                              child: const Text("Continue WordBlitz")),
-                          IconButton(
+                          Container(
+                            alignment: Alignment.center,
+                            child: ElevatedButton(
+                                onPressed: (controller.isBlitzContinueEnabled)
+                                    ? (){controller.handlePlayWordBlitz(isContinuing: true);}
+                                    : null,
+                                child: const Text("Continue WordBlitz")),
+                          ),
+                          /*IconButton(
+                              alignment: Alignment.centerRight,
                               onPressed: null,
-                              icon: Icon(Icons.delete)),
+                              icon: Icon(Icons.delete)),*/
                         ],
                       );
                     }
                   ),
 
-                  const ElevatedButton(
-                      onPressed: null,/*() async{
-                        var result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                            builder: (context)=> const AnalysisScreen(
-                              gridLayout: ["G","Q","R","P",
-                                "G","Q","R","G",
-                                "G","Q","R","G",
-                                "G","Q","R","G",],
-                              initialList: ["BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","AAAAAAAAAAAAAAAA","IIIIIIIIIIIIIIII",
-                                "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",
-                                "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",
-                                "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",
-                                "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",
-                                "BOY","YOG","YOGA","READER","WWWWWWWWWWWWWWWW","ACCENT","IIIIIIIIIIIIIIII",],//temporarily here for debugging
-                            ))
-                        );
-                        print(result);
-                      },*/
-                      /// temporarily disabled for alpha release 1
-                      child: const Text("navigate to analysis")),
+                  ElevatedButton(
+                      onPressed: ()=>controller.handlePlayPuzzle(),
+                      child: const Text("Play Puzzle Mode")),
+
                   ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -88,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                             )
                         );
                       },
-                      child: const Text("navigate to settings")),
+                      child: const Text("Settings")),
                 ],
                 //
                 //
