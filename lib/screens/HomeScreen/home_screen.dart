@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   ElevatedButton(
-                      onPressed: ()=>controller.handlePlayPuzzle(),
+                      onPressed: null/*()=>controller.handlePlayPuzzle()*/,
                       child: const Text("Play Puzzle Mode")),
 
                   ElevatedButton(
