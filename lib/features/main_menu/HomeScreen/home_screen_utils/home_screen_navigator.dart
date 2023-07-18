@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
-//import screens
-import 'package:wordblitz/tools/staticNavigationData.dart';
-import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
+//import tools
 import 'package:wordblitz/tools/config.dart';
+import 'package:wordblitz/tools/staticNavigationData.dart';
+
+//import external features
+import '../../../wordblitz/BlitzScreen/blitz_screen.dart';
+import '../../../Puzzle/PuzzleScreen/puzzle_screen.dart';
 //
-class utilsContinueBlitzGameLogic{
+
+class HomeScreenNavigator{
 
   static Future<void> navigateToWordBlitz(
       BuildContext context,
@@ -21,7 +25,15 @@ class utilsContinueBlitzGameLogic{
         ));
     staticNavData.data = result;
   }
-
-
+  
+  static Future<void> navigateToPuzzle(BuildContext context) async{
+    /*var result = */await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context)=> PuzzleScreen(
+            )
+        )
+    );
+  }
 
 }

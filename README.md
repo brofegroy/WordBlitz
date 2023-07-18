@@ -25,6 +25,9 @@ There will be a configuration page where the user can customise settings such as
 - other graphical settings, such as backgrounds
 - and more
 
+## Limitations
+- will not support tile sets with more than 1 Q
+
 ## Language
 This project uses the [flutter](https://flutter.dev/) framework, and is written in the [Dart](https://dart.dev/) Language.
 

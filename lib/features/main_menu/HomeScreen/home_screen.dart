@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
-//import screens
-import 'package:wordblitz/screens/HomeScreen/home_screen_controller.dart';
-import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
-import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
-import 'package:wordblitz/screens/SettingsScreen/settings_screen.dart';
+
+// import from other features
+
+
+import 'package:wordblitz/tools/config.dart';
+
+// import from same features
+import '../SettingsScreen/settings_screen.dart';
+
+// import from same screen
+import 'home_screen_controller.dart';
 //
 
 class HomeScreen extends StatelessWidget {
@@ -12,7 +18,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size? size = MediaQuery.of(context).size;
-    final screenSize = Size( ((size.width/size.height)>(5/7)) ? size.height * 5/7 : size.width,size.height );
+    final screenSize = Size( ((size.width/size.height)>(4/7)) ? size.height * 4/7 : size.width,size.height );
     size = null; //do not use this variable
     HomeScreenController controller = HomeScreenController(
       context: context,
@@ -33,7 +39,11 @@ class HomeScreen extends StatelessWidget {
                 //
                 //
                 children: [
-                  Image.asset("resources/images/title_screen_image.png"),
+                  Container(
+                    height: screenSize.width * 0.7,
+                    width: screenSize.width * 0.7,
+                    child: Image.asset("resources/images/title_screen_image.png"),
+                  ),
                   wordBlitzTitleLettersWidget(titleWidth: screenSize.width * 0.8 / 10),
                   Divider(),
 
@@ -41,15 +51,15 @@ class HomeScreen extends StatelessWidget {
                       onPressed: (){controller.handlePlayWordBlitz(isContinuing: false);},
                       child: const Text("Play WordBlitz")),
                   ValueListenableBuilder(
-                    valueListenable: controller.continueBlitzScreenDataNotifier,
-                    builder: (context,gameData,_) {
+                    valueListenable: controller.isBlitzContinueEnabled,
+                    builder: (context,isContinueEnabled,_) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             alignment: Alignment.center,
                             child: ElevatedButton(
-                                onPressed: (controller.isBlitzContinueEnabled)
+                                onPressed: (isContinueEnabled)
                                     ? (){controller.handlePlayWordBlitz(isContinuing: true);}
                                     : null,
                                 child: const Text("Continue WordBlitz")),
@@ -63,9 +73,22 @@ class HomeScreen extends StatelessWidget {
                     }
                   ),
 
-                  ElevatedButton(
-                      onPressed: null/*()=>controller.handlePlayPuzzle()*/,
-                      child: const Text("Play Puzzle Mode")),
+                  ValueListenableBuilder(
+                    valueListenable: controller.isPuzzleEnabledNotifier,
+                    builder: (context,isPuzzleEnabled,_) {
+                      return (isPuzzleEnabled)
+                          ? ElevatedButton(
+                          onPressed: (Config.shouldPreloadPuzzleCache)?()=>controller.handlePlayPuzzle():null,
+                          child: const Text("Play Puzzle Mode"))
+                          :Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: screenSize.width/16,width: screenSize.width/16,),
+                          ElevatedButton(onPressed: null, child: const Text("Play Puzzle Mode")),
+                          SizedBox(height: screenSize.width/16,width: screenSize.width/16,child: CircularProgressIndicator()),
+                      ],);
+                    }
+                  ),
 
                   ElevatedButton(
                       onPressed: () {
@@ -77,6 +100,10 @@ class HomeScreen extends StatelessWidget {
                         );
                       },
                       child: const Text("Settings")),
+
+                  ElevatedButton(
+                      onPressed: null,
+                      child: const Text("View Stats")),
                 ],
                 //
                 //

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
+
 import 'package:wordblitz/tools/score_counter.dart';
+
+import 'analysis_screen.dart';
 
 class AnalysisScreenController{
   //variables

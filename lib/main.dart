@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 //import dependencies
-import 'package:wordblitz/tools/global.dart';
+import 'package:wordblitz/tools/main_initialisation.dart';
 //
 //import screens
-import 'screens/HomeScreen/home_screen.dart';
+import 'features/main_menu/HomeScreen/home_screen.dart';
 //
 
 void main() {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Load all static async values from assets to memory here
-    Global.init();
+    InitialiseAtMain.init();
     //
     return MaterialApp(
       title: 'Flutter Demo',

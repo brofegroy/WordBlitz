@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 import 'dart:async';
 
-// import dependencies
-import 'package:wordblitz/screens/AnalysisScreen/analysis_screen.dart';
-//
-// dependencies within screen's folder
-import 'package:wordblitz/tools/dict_and_dice.dart';
-import 'package:wordblitz/screens/BlitzScreen/blitz_screen_utils/prevent_reload.dart';
-import 'package:wordblitz/screens/BlitzScreen/blitz_screen.dart';
+// dependencies outside screen's folder
+import '../AnalysisScreen/analysis_screen.dart';
 import 'package:wordblitz/tools/staticNavigationData.dart';
+import 'package:wordblitz/tools/dict_and_dice.dart';
+
+// dependencies within screen's folder
+import 'blitz_screen_utils/prevent_reload.dart';
+import 'blitz_screen.dart';
 import 'blitz_screen_model.dart';
 import 'blitz_screen_utils//drag_position.dart';
 //
