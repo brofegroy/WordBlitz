@@ -38,20 +38,34 @@ class DatabaseHelper{
     CREATE TABLE $gameStatsTable(
     ${GameStatsFields.word} $idType,
     ${GameStatsFields.isWordCorrect} $boolType,
-    ${GameStatsFields.correctGuesses} $intType,
-    ${GameStatsFields.misses} $intType,
-    ${GameStatsFields.wrongGuesses} $intType,
-    ${GameStatsFields.total} $intType
+    ${GameStatsFields.embeddedInt} $intType
     )
     ''');
+  }
+
+  Future deleteTable() async{
+    final db = await instance.database;
+
+    await db.execute("DROP TABLE IF EXISTS $gameStatsTable");
   }
 
   Future<GameStats> create(GameStats gameStats) async{
     final db = await instance.database;
 
-    final id = await db.insert(gameStatsTable, gameStats.toJson());
+    /*final id = */await db.insert(gameStatsTable, gameStats.toJson());
 
     return gameStats;
+  }
+  Future<void> bulkCreate(List<GameStats> gameStatsList) async {
+    final db = await instance.database;
+
+    Batch batch = db.batch();
+
+    for (GameStats gameStats in gameStatsList) {
+      batch.insert(gameStatsTable, gameStats.toJson());
+    }
+
+    await batch.commit(noResult: true);
   }
 
   Future<GameStats> readGameStats(String word) async{
@@ -67,16 +81,14 @@ class DatabaseHelper{
     if (maps.isNotEmpty) {
       return GameStats.fromJson(maps.first);
     } else {
-      throw Exception("word $word not in database");
+      throw WordNotFoundException("word $word not in database");
     }
   }
 
   Future<List<GameStats>> readAllGameStats() async {
     final db = await instance.database;
 
-    final orderBy = "${GameStatsFields.total} DESC";
-
-    final result = await db.query(gameStatsTable, orderBy: orderBy);
+    final result = await db.query(gameStatsTable);
 
     return await result.map((json) => GameStats.fromJson(json)).toList();
   }
@@ -108,4 +120,9 @@ class DatabaseHelper{
     db.close();
     return;
   }
+}
+
+class WordNotFoundException implements Exception{
+  final String message;
+  WordNotFoundException(this.message);
 }

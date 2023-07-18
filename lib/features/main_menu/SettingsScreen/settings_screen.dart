@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //import screens
-import 'package:wordblitz/screens/SettingsScreen/settings_screen_controller.dart';
+import 'settings_screen_controller.dart';
 //
 
 class SettingsScreen extends StatelessWidget {

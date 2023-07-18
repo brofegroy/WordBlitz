@@ -1,17 +1,23 @@
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:wordblitz/tools/config.dart';
+
+import 'package:wordblitz/features/Puzzle/PuzzleScreen/puzzle_screen_utils/generate_next_tiles/word_validator.dart';
 
 class Dice{
-  static String dicePath = "resources/raw/dice_modern.txt";
+  static String _dicePath = "resources/raw/dice_modern.txt";
   static late List<List<String>> txt;
   static bool isDiceLoading = false;
+  static bool isDiceLoaded = false; //this boolean is important
 
   static Future<bool> load() async {
     ///returns true if error detected, false once it finishes loading
+    if(isDiceLoaded){return false;}
     if (isDiceLoading == true){return true;}
     isDiceLoading = true;
-    final String fileContent = await rootBundle.loadString(dicePath);
+    final String fileContent = await rootBundle.loadString(_dicePath);
     txt = await _processFileContent(fileContent);
     isDiceLoading = false;
+    isDiceLoaded = true;
     return false;
   }
 
@@ -27,23 +33,26 @@ class Dice{
   }
 
   static void _changeDicePath(newDicePath){ //TODO needs implement
-    dicePath = newDicePath;
+    _dicePath = newDicePath;
   }
 }
 
 class Dict{
-  static String dictPath = "resources/raw/csw22.txt";
+  static String _dictPath = "resources/raw/csw22.txt";
   static late Set<String> txt;
   static bool isDictLoading = false;
-  static late Set<String> wordsWithQButNotFollowedByU;
+  static bool isDictLoaded = false; //important
+  //i have stuff that depends on not reloading, also not reloading unnecessarily is a good thing
 
   static Future<bool> load() async {
     ///returns true if error detected, false once it finishes loading
+    if(isDictLoaded){return false;}
     isDictLoading = true;
-    final String fileContent = await rootBundle.loadString(dictPath);
+    final String fileContent = await rootBundle.loadString(_dictPath);
     txt = await _processFileContent(fileContent);
-    wordsWithQButNotFollowedByU = await _filterQnoUWords();
+    if(Config.shouldPreloadPuzzleCache){await WordValidator.load();}
     isDictLoading = false;
+    isDictLoaded = true;
     return false;
   }
 
@@ -57,16 +66,7 @@ class Dict{
     );
   }
 
-  static Future<Set<String>> _filterQnoUWords(){
-    return Future(()=>
-        txt
-            .where((wordIter) => wordIter.contains("Q"))
-            .where((wordIter) => !wordIter.contains("QU"))
-            .toSet()
-    );
-  }
-
   static void _changeDictPath(newDictPath) { //TODO may need implement
-    dictPath = newDictPath;
+    _dictPath = newDictPath;
   }
 }

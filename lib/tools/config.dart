@@ -13,17 +13,22 @@ class Config{
   //Qu words are more common than words with only Q so the default value is true
   static bool isBlitzPenalisingQu = true;
 
+  static bool _shouldPreloadPuzzleCache = true;
+
   // getters and setters
   static double get blitzDuration => _blitzDuration;
   static bool get isNightMode => _isNightMode;
+  static bool get shouldPreloadPuzzleCache => _shouldPreloadPuzzleCache;
   //
 
   static Future<void> load () async{
     _preferences = await SharedPreferences.getInstance();
     var blitzDurationStoredValue = _preferences?.get("blitzDuration");
-    _blitzDuration = (blitzDurationStoredValue is double) ? blitzDurationStoredValue : 180;
+    _blitzDuration = (blitzDurationStoredValue is double) ? blitzDurationStoredValue : _blitzDuration;
     var isNightModeStoredValue = _preferences?.get("isNightMode");
-    _isNightMode = (isNightModeStoredValue is bool) ? isNightModeStoredValue : false;
+    _isNightMode = (isNightModeStoredValue is bool) ? isNightModeStoredValue : _isNightMode;
+    var shouldLoadPuzzleCacheStoredValue = _preferences?.get("shouldLoadPuzzleCache");
+    _shouldPreloadPuzzleCache = (shouldLoadPuzzleCacheStoredValue is bool) ? shouldLoadPuzzleCacheStoredValue : _shouldPreloadPuzzleCache;
   }
 
   static void changeGamemode(int modeNumber){/*TODO modeNumber currently unused*/

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //import screens
-import 'package:wordblitz/screens/AnalysisScreen/analysis_screen_controller.dart';
+import 'analysis_screen_controller.dart';
 //
 
 class AnalysisScreen extends StatelessWidget {
