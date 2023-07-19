@@ -33,6 +33,11 @@ class PuzzleScreenController{
   //this is the set of words that they have gotten wrong in the past, where if user does not repeat mistakes, user should be rewarded for it
   Set<String> previouslyFakedWords = {};
   bool isWordSearchLoading = false;
+  bool? hasBoardBeenAttemptedOnce = false; //not false if attempted,null if currently is not showing first result
+  List<String> firstAttemptWordList = []; //this is for the retry button
+  List<Color> firstAttemptColorList = [];
+  bool shouldAllowChangeAnswerConfig = false;///todo make functionality to edit this value
+
 
   int get wrongCount => displayWrongCountNotifier.value;
   set wrongCount(value) => displayWrongCountNotifier.value = value;
@@ -78,6 +83,8 @@ class PuzzleScreenController{
     wordList = [];
     wordColorList = [];
     wordListLengthNotifier.value = 0;
+    hasBoardBeenAttemptedOnce = false;
+    isResultsVisible.value = true; //need to do a value update for both cases
     isResultsVisible.value = false;
 
     bool isBlankTileEnabled = PuzzleGenerator.isBlankTileEnabled;
@@ -92,6 +99,7 @@ class PuzzleScreenController{
   }
   void handleSaveDataAndLoadNext() async{
     if (isWordSearchLoading){return;}
+    if (!shouldAllowChangeAnswerConfig && hasBoardBeenAttemptedOnce == null){throw("not supposed to be able to submit other answers");}
     List<bool> results = wordColorList.map((color) => color == colorCorrect ? true : false).toList();
     await WordValidator.savePuzzleResults(wordList,results);
     await WordValidator.submitPuzzleCorrections(previouslyFakedWords.difference(wordList.toSet()).toList());
@@ -122,6 +130,8 @@ class PuzzleScreenController{
     await Future.delayed(Duration(milliseconds: 50));
     List<String> missedWords = formableWords.difference(wordList.toSet()).toList();
     for (String missedWord in missedWords){_insertToWordList(missedWord,colorMiss);}
+    if(shouldAllowChangeAnswerConfig){hasBoardBeenAttemptedOnce = true;}
+    else{if(hasBoardBeenAttemptedOnce != null){hasBoardBeenAttemptedOnce = true;}}
     isResultsVisible.value = true;
     //TODO prepare next random. ahead of time,optional
   }
@@ -135,7 +145,7 @@ class PuzzleScreenController{
       handleAddWord();
     }
   }
-  void handleOnPanned(DragUpdateDetails details){
+  void handleGridOnPanned(DragUpdateDetails details){
     int? index = GetPuzzleDragPosition.getDragIndex(details.localPosition.dx,details.localPosition.dy,screenSize.width*GRID_SCRWIDTH_PCT);
     if(index != null){_handleTileSwipedAtIndex(index);}
   }
@@ -148,7 +158,7 @@ class PuzzleScreenController{
      isTileSelectedNotifier[index].value = true;
     }
   }
-  void handleOnTapped(TapUpDetails details){
+  void handleGridOnTapped(TapUpDetails details){
     int index = 0;
     if(details.localPosition.dx>screenSize.width*GRID_SCRWIDTH_PCT/2){index+=1;}
     if(details.localPosition.dy>screenSize.width*GRID_SCRWIDTH_PCT/2){index+=2;}
@@ -166,6 +176,24 @@ class PuzzleScreenController{
       letters = lettersAfterRemoval;
     }
     isTileSelectedNotifier[index].value = ! isTileSelectedNotifier[index].value;
+  }
+  void handleRetry(){
+    if (hasBoardBeenAttemptedOnce != null){
+      firstAttemptWordList = wordList;
+      firstAttemptColorList = wordColorList;
+      hasBoardBeenAttemptedOnce = null;
+    }
+    isResultsVisible.value = false;
+    handleClearList();
+  }
+  void handleReloadFirstAttempt(){
+    if (hasBoardBeenAttemptedOnce != null){return;}
+    wordList = firstAttemptWordList;
+    wordColorList = firstAttemptColorList;
+    wordListLengthNotifier.value = wordList.length;
+    hasBoardBeenAttemptedOnce = true;
+    isResultsVisible.value = false; //needs to refresh the listener here
+    isResultsVisible.value = true;
   }
 
   void handleRemoveOneLetter(){
@@ -187,8 +215,7 @@ class PuzzleScreenController{
   }
   void handleAddWord(){
     if (!wordList.contains(letters) && letters.isNotEmpty){
-      if(letters.length<3){return;}
-      if(!isResultsVisible.value){
+      if((!isResultsVisible.value) && letters.length>2){
         bool hasInsertedValidWordYet = false;
         if(letters.contains("Q")){
           String QULetter = letters.replaceFirst("Q", "QU");
@@ -212,11 +239,15 @@ class PuzzleScreenController{
     isTileSelectedNotifier.forEach((isSelected) =>isSelected.value = false);
     letters = "";
   }
-
   void handleRemoveWord(int index){
     wordList.removeAt(index);
     wordColorList.removeAt(index);
     wordListLengthNotifier.value--;
+  }
+  void handleClearList(){
+    wordList = [];
+    wordColorList = [];
+    wordListLengthNotifier.value = 0;
   }
 
 

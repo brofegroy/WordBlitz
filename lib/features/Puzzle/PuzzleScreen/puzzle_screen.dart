@@ -225,11 +225,27 @@ class _PuzzleScreenPuzzleRowWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _PuzzleScreenPuzzleRowButtonWidget(
-          onTap: controller.handleShufflePressed,
-          screenSize: screenSize,
-          text: "Shuffle",
-          iconData: Icons.change_circle_rounded,
+        Column(
+          children: [
+            _PuzzleScreenPuzzleRowButtonWidget(
+              onTap: controller.handleShufflePressed,
+              screenSize: screenSize,
+              text: "Shuffle",
+              iconData: Icons.shuffle_rounded,
+            ),
+            SizedBox(height: screenSize.width*0.05),
+            ValueListenableBuilder(
+              valueListenable: controller.isResultsVisible,
+              builder: (context,isResultsVisible,_) {
+                return _PuzzleScreenPuzzleRowButtonWidget(
+                  onTap: (!isResultsVisible && controller.hasBoardBeenAttemptedOnce==null)?controller.handleReloadFirstAttempt:controller.handleRetry,
+                  screenSize: screenSize,
+                  text: (!isResultsVisible && controller.hasBoardBeenAttemptedOnce==null)?"Load First":"Retry",
+                  iconData: Icons.cached_rounded,
+                );
+              }
+            ),
+          ],
         ),
         SizedBox(
           width: screenSize.width * 1 / 60,
@@ -258,7 +274,7 @@ class _PuzzleScreenPuzzleRowWidget extends StatelessWidget {
         ValueListenableBuilder(
             valueListenable: controller.isResultsVisible,
             builder: (context, isResultsVisible, _) {
-              return (isResultsVisible)
+              return (isResultsVisible && !controller.shouldAllowChangeAnswerConfig && controller.hasBoardBeenAttemptedOnce==true)
                   ? _PuzzleScreenPuzzleRowButtonWidget(
                       onTap: controller.handleSaveDataAndLoadNext,
                       screenSize: screenSize,
@@ -269,9 +285,11 @@ class _PuzzleScreenPuzzleRowWidget extends StatelessWidget {
                       valueListenable: controller.isConfirmButtonEnabled,
                       builder: (context, isConfirmButtonEnabled, _) {
                         return _PuzzleScreenPuzzleRowButtonWidget(
-                          onTap: (isConfirmButtonEnabled)?controller.handleConfirmPressed:(){},
+                          onTap: (isResultsVisible)
+                              ? controller.handleReloadFirstAttempt
+                              :(isConfirmButtonEnabled)?controller.handleConfirmPressed:(){},
                           screenSize: screenSize,
-                          text: "Confirm",
+                          text: (isResultsVisible)?"Load First":"Confirm",
                           iconData: (isConfirmButtonEnabled)?Icons.fact_check_rounded:Icons.fact_check_outlined,
                         );
                       });
@@ -294,7 +312,7 @@ class _PuzzleScreenPuzzleRowMainGridWidget extends StatelessWidget {
     double gridSize = screenSize.width * GRID_SCRWIDTH_PCT;
     return GestureDetector(
       onPanStart: controller.handleOnPannedStart,
-      onPanUpdate: controller.handleOnPanned,
+      onPanUpdate: controller.handleGridOnPanned,
       onPanEnd: controller.handleOnPannedEnd,
 /*      onTapUp: controller.handleOnTapped,*/
       child: Container(
