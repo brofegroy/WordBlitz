@@ -83,11 +83,9 @@ class PuzzleScreenController{
     bool isBlankTileEnabled = PuzzleGenerator.isBlankTileEnabled;
     isBlankTileModeEnabledNotifier.value = isBlankTileEnabled;
     String nextPuzzle = PuzzleGenerator.NextPuzzle();
-    print("next Puzzle $nextPuzzle");
     _assignTiles(nextPuzzle.split("") + [""]);
     formableWords = WordValidator.getFormableWords(nextPuzzle,withBlankTile: isBlankTileEnabled);
     previouslyFakedWords = WordValidator.getRelevantWords(nextPuzzle,withBlankTile: isBlankTileEnabled).difference(formableWords);
-    print("potentialErrorWords is $previouslyFakedWords");
     handleShufflePressed();
 
     isWordSearchLoading = false;
@@ -100,8 +98,6 @@ class PuzzleScreenController{
 
     bool isAllWordsCorrect = true;
     for (Color color in wordColorList){
-      print(wordColorList);
-      print("green is $colorCorrect,grey is $colorMiss");
       if(color != colorCorrect){isAllWordsCorrect = false;break;}
     }
     if(isAllWordsCorrect){displayCorrectCountNotifier.value += 1;}
@@ -125,7 +121,6 @@ class PuzzleScreenController{
     }
     await Future.delayed(Duration(milliseconds: 50));
     List<String> missedWords = formableWords.difference(wordList.toSet()).toList();
-    print("missedWords is $missedWords");
     for (String missedWord in missedWords){_insertToWordList(missedWord,colorMiss);}
     isResultsVisible.value = true;
     //TODO prepare next random. ahead of time,optional
