@@ -59,7 +59,7 @@ class PuzzleGenerator{
     if (!lottoString.contains("QU")){
       lottoString.replaceFirst("QU", "Q");
     }
-    if (lottoString.length < requiredLength){
+    while (lottoString.length < requiredLength){
       String possibleTiles = _randomLayout(4,isFromDice: isFromDice);
       List<String> remainingTiles = possibleTiles.split("").toSet().difference(lottoString.split("").toSet()).toList()..shuffle();
       lottoString = lottoString + remainingTiles[0];

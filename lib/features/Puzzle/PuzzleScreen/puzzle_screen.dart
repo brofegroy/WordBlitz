@@ -293,9 +293,10 @@ class _PuzzleScreenPuzzleRowMainGridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     double gridSize = screenSize.width * GRID_SCRWIDTH_PCT;
     return GestureDetector(
+      onPanStart: controller.handleOnPannedStart,
       onPanUpdate: controller.handleOnPanned,
       onPanEnd: controller.handleOnPannedEnd,
-      onTapUp: controller.handleOnTapped,
+/*      onTapUp: controller.handleOnTapped,*/
       child: Container(
         height: gridSize,
         width: gridSize,

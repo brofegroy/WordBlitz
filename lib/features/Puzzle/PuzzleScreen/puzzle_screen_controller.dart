@@ -76,6 +76,7 @@ class PuzzleScreenController{
 
     handleClearCurrentWord();
     wordList = [];
+    wordColorList = [];
     wordListLengthNotifier.value = 0;
     isResultsVisible.value = false;
 
@@ -93,9 +94,19 @@ class PuzzleScreenController{
   }
   void handleSaveDataAndLoadNext() async{
     if (isWordSearchLoading){return;}
-    List<bool> results = wordColorList.map((color) => color == Colors.green ? true : false).toList();
+    List<bool> results = wordColorList.map((color) => color == colorCorrect ? true : false).toList();
     await WordValidator.savePuzzleResults(wordList,results);
     await WordValidator.submitPuzzleCorrections(previouslyFakedWords.difference(wordList.toSet()).toList());
+
+    bool isAllWordsCorrect = true;
+    for (Color color in wordColorList){
+      print(wordColorList);
+      print("green is $colorCorrect,grey is $colorMiss");
+      if(color != colorCorrect){isAllWordsCorrect = false;break;}
+    }
+    if(isAllWordsCorrect){displayCorrectCountNotifier.value += 1;}
+    else{displayWrongCountNotifier.value += 1;}
+
     handleSkipPressed();
   }
 
@@ -120,6 +131,10 @@ class PuzzleScreenController{
     //TODO prepare next random. ahead of time,optional
   }
 
+  void handleOnPannedStart(DragStartDetails details){
+    int? index = GetPuzzleDragPosition.getDragIndex(details.localPosition.dx,details.localPosition.dy,screenSize.width*GRID_SCRWIDTH_PCT);
+    if(index != null){_handleTileSwipedAtIndex(index);}
+  }
   void handleOnPannedEnd(DragEndDetails details){
     if(!isBlankTileModeEnabledNotifier.value){
       handleAddWord();
