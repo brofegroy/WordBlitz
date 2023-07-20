@@ -1,54 +1,53 @@
+import 'dart:math';
 
-import 'package:wordblitz/tools/Database/database_helper.dart';
+
 import 'package:wordblitz/tools/Database/game_stats_model.dart';
 import 'package:wordblitz/tools/global.dart';
+
 
 import 'func_calculate_lotto.dart';
 
 class PuzzleCache {
   static LetterNode baseLetterNode = LetterNode("");
+  static LetterNode baseBoardNode = LetterNode("");
   static bool isPuzzleCacheLoaded = false;
-  static bool wasLoadingHalfway = false; //becomes false again if no interrupts occurred
 
   //default is with no blank tiles, but can be set to true
   static bool isBlankTileEnabled = false;
   //default is 4 letter mode, but can be set to 3
   static bool isFourLetterMode = true;
 
-  static Future<bool> load() async{
-    //returns true if there there is a need to do first time initialisation.
+  static void load(List<GameStats> gameStatsList,List<GameStats> boardGameStatsList) async{
     print("load called");
-    if (wasLoadingHalfway){print("verify load called");return _verifyLoaded();}
     if (!isPuzzleCacheLoaded){
-      wasLoadingHalfway = true;
-      List<GameStats> gameStatsList= await DatabaseHelper.instance.readAllGameStats();
-      if(gameStatsList.length == 0){return true;}
+      baseLetterNode = LetterNode("");
+      baseBoardNode = LetterNode("");
+
       for (GameStats gameStats in gameStatsList){
         baseLetterNode.createWord(gameStats.word,targetLottoTickets: calculateLotto(gameStats.embeddedInt));
       }
-      wasLoadingHalfway = false;
+      for (GameStats boardGameStats in boardGameStatsList){
+        baseBoardNode.createWord(boardGameStats.word,targetLottoTickets: calculateLotto(boardGameStats.embeddedInt));
+      }
+
       isPuzzleCacheLoaded = true;
     }
-    if(isPuzzleCacheLoaded){Global.isPuzzleLoaded.complete(true);}
-    return false;
+    print("cache is actually loaded");
+    if(isPuzzleCacheLoaded && !Global.isPuzzleLoaded.isCompleted){Global.isPuzzleLoaded.complete(true);}
+    return;
   }
 
-  static Future<bool> _verifyLoaded() async{
-    //returns true if there there is a need to do first time initialisation.
-    List<GameStats> gameStatsList= await DatabaseHelper.instance.readAllGameStats();
-    if(gameStatsList.length == 0){
-      wasLoadingHalfway = false;
-      return true;
+  static String drawAllLotto(){
+    Random random = Random();
+    const double boardWeightage = 10; //multiplier for board lottos
+    double totalLotto = baseLetterNode.currentLottoTickets * boardWeightage + baseBoardNode.currentLottoTickets;
+    if(random.nextDouble() < baseLetterNode.currentLottoTickets/totalLotto){
+      print("drawn from letters");
+      return baseLetterNode.drawLotto(random.nextDouble());
+    } else {
+      print("drawn from boards, board lottos is now ${baseBoardNode.currentLottoTickets * boardWeightage}");
+      return baseBoardNode.drawLotto(random.nextDouble());
     }
-    for (GameStats gameStats in gameStatsList){
-      if (baseLetterNode[gameStats.word] == null){
-        baseLetterNode.createWord(gameStats.word,targetLottoTickets: calculateLotto(gameStats.embeddedInt));
-      }
-    }
-    wasLoadingHalfway = false;
-    isPuzzleCacheLoaded = true;
-    if(isPuzzleCacheLoaded){Global.isPuzzleLoaded.complete(true);}
-    return false;
   }
 }
 
@@ -78,16 +77,15 @@ class LetterNode {
 
 
 
-  void conditionallyEnableThis(){
+  void _conditionallyEnableThis(){
     if (wordLottoTickets!=null){isEnabled = true;}
   }
-
   //useCases: massive enables/disables, does not update value
   void enableAllDescendants() {
     children.forEach((key, child) {
       child.enableAllDescendants();
     });
-    conditionallyEnableThis();
+    _conditionallyEnableThis();
   }
   void disableAllDescendants() {
     if (currentLottoTickets != 0) {
@@ -111,31 +109,37 @@ class LetterNode {
   /// below this line, do not call any methods outside of the root/base node ,""
   void enableAllDescendantsUpToCertainDepth(int depth){
     ///depth should be set to desired word length. depth = 3 will conditionally enable all words <=3 long
-    conditionallyEnableThis();
+    _conditionallyEnableThis();
     if (depth <= 0){return;}
     for (var child in children.values) {
       child.enableAllDescendantsUpToCertainDepth(depth - 1);
     }
   }
-  void disableAllDescendantsAfterCertainDepth(int depth){
-    ///depth should be set to desired word length. depth = 3 will disable all words that is 4 or more long
-    if (depth <= 0){
-      disableAllDescendants();
-      return;
-    }
+  void disableAllDescendantsUpToCertainDepth(int depth){
+    ///depth should be set to desired word length. depth = 3 will disable all words <=3 long
+    isEnabled = false;
+    if (depth <= 0){return;}
     for (var child in children.values) {
-      child.disableAllDescendantsAfterCertainDepth(depth - 1);
+      child.disableAllDescendantsUpToCertainDepth(depth - 1);
     }
   }
 
-  void _updateLottoInALinePath(String targetChildWord,double valueChange){
+  void _updateLottoInALinePath(String targetChildWord){
     //to be used only in the root node, updates all values a fixed amount (positive/negative) down the tree
     //to only be used when target node is confirmed to exist.
-    LetterNode accessedWordNode = this;
-    currentLottoTickets += valueChange;
-    for (int i=1;i <targetChildWord.length; i++) {
-      accessedWordNode = accessedWordNode.children[targetChildWord.substring(0, i)]!;
-      accessedWordNode.currentLottoTickets += valueChange;
+    List<LetterNode> accessedWordNodes = [this];
+    for (int i=1;i <targetChildWord.length; i++){
+      accessedWordNodes.insert(0, accessedWordNodes[0].children[targetChildWord.substring(0, i)]!);
+    }
+    for (int i=0;i <targetChildWord.length; i++){
+      LetterNode accessedWordNode = accessedWordNodes[i];
+      accessedWordNode.currentLottoTickets = 0;
+      for (LetterNode child in accessedWordNode.children.values){
+        accessedWordNode.currentLottoTickets += child.currentLottoTickets;
+      }
+      if (accessedWordNode.wordLottoTickets != null && isEnabled) {
+        accessedWordNode.currentLottoTickets += wordLottoTickets!;
+      }
     }
   }
   void updateWordIsEnabledAttribute(String targetChildWord, bool updatedIsEnabledValue){
@@ -149,7 +153,7 @@ class LetterNode {
     targetNode.isEnabled = updatedIsEnabledValue; //updates Is enabled value
 
     double targetWordLotto = targetNode.wordLottoTickets!; //applies the change down the tree
-    _updateLottoInALinePath(targetChildWord, (updatedIsEnabledValue)?targetWordLotto:-targetWordLotto);
+    _updateLottoInALinePath(targetChildWord);
   }
   void precisionUpdateWordLotto(String targetChildWord, double updatedLottoValue){
     //to be used only at the root node
@@ -159,10 +163,10 @@ class LetterNode {
     LetterNode targetNode = this[targetChildWord]!;
 
     double changedLottoValue = updatedLottoValue - targetNode.wordLottoTickets!; //keeps track of changed value
+    if(changedLottoValue == 0){return;} //refuse to do anything if there is no change in value
     targetNode.wordLottoTickets = updatedLottoValue; //sets new value
-    if(!targetNode.isEnabled){return;} //refuse to do anything if node isn't already enabled
 
-    _updateLottoInALinePath(targetChildWord, changedLottoValue);//updates all down the tree because it was enabled
+    _updateLottoInALinePath(targetChildWord);//updates all down the tree because it was enabled
   }
   void removeWordFromTreeAndUpdate(String targetChildWord){
     if (nodeWordSegment != ""){throw("snip should only be called from root node \"\"");}
@@ -196,7 +200,6 @@ class LetterNode {
     if (drawnLotto >= 1){throw("Error: exceeding maximum range");}
     if (drawnLotto < 0){throw("Error: no lotto to draw, invalid call");}
     String result = _drawLotto(drawnLotto * this.currentLottoTickets);
-    print("current lotto is${currentLottoTickets}, result is ${result}");
     if(result == ""){
       /*throw("Error: drawnLotto more than current tickets");*/
       print("an unforeseen error occurred in Puzzle mode lotto drawing, probably due to type <double> inaccuracy");

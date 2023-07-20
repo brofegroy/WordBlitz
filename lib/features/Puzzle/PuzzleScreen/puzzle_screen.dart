@@ -232,16 +232,25 @@ class _PuzzleScreenPuzzleRowWidget extends StatelessWidget {
               screenSize: screenSize,
               text: "Shuffle",
               iconData: Icons.shuffle_rounded,
+              color: Colors.purple,
             ),
             SizedBox(height: screenSize.width*0.05),
             ValueListenableBuilder(
               valueListenable: controller.isResultsVisible,
               builder: (context,isResultsVisible,_) {
+                bool activatedCondition = (!isResultsVisible && controller.hasBoardBeenAttemptedOnce==null);
                 return _PuzzleScreenPuzzleRowButtonWidget(
-                  onTap: (!isResultsVisible && controller.hasBoardBeenAttemptedOnce==null)?controller.handleReloadFirstAttempt:controller.handleRetry,
+                  onTap: activatedCondition
+                      ?controller.handleReloadFirstAttempt
+                      :controller.handleRetry,
                   screenSize: screenSize,
-                  text: (!isResultsVisible && controller.hasBoardBeenAttemptedOnce==null)?"Load First":"Retry",
-                  iconData: Icons.cached_rounded,
+                  text: activatedCondition
+                      ?"Reload"
+                      :"Retry",
+                  iconData: activatedCondition
+                      ? Icons.receipt_long
+                      : Icons.cached_rounded,
+                  color: Colors.purple,
                 );
               }
             ),
@@ -271,29 +280,61 @@ class _PuzzleScreenPuzzleRowWidget extends StatelessWidget {
         SizedBox(
           width: screenSize.width * 1 / 60,
         ),
-        ValueListenableBuilder(
-            valueListenable: controller.isResultsVisible,
-            builder: (context, isResultsVisible, _) {
-              return (isResultsVisible && !controller.shouldAllowChangeAnswerConfig && controller.hasBoardBeenAttemptedOnce==true)
-                  ? _PuzzleScreenPuzzleRowButtonWidget(
-                      onTap: controller.handleSaveDataAndLoadNext,
-                      screenSize: screenSize,
-                      text: "Save&Next",
-                      iconData: Icons.label_rounded,
-                    )
-                  : ValueListenableBuilder(
-                      valueListenable: controller.isConfirmButtonEnabled,
-                      builder: (context, isConfirmButtonEnabled, _) {
-                        return _PuzzleScreenPuzzleRowButtonWidget(
-                          onTap: (isResultsVisible)
-                              ? controller.handleReloadFirstAttempt
-                              :(isConfirmButtonEnabled)?controller.handleConfirmPressed:(){},
-                          screenSize: screenSize,
-                          text: (isResultsVisible)?"Load First":"Confirm",
-                          iconData: (isConfirmButtonEnabled)?Icons.fact_check_rounded:Icons.fact_check_outlined,
-                        );
-                      });
-            }),
+        Column(
+          children: [
+            ValueListenableBuilder(
+                valueListenable: controller.isResultsVisible,
+                builder: (context,isResultsVisible,_){
+                  bool activatedCondition = (isResultsVisible && (!controller.shouldAllowChangeAnswerConfig && controller.hasBoardBeenAttemptedOnce== true));
+                  return _PuzzleScreenPuzzleRowButtonWidget(
+                    onTap: (activatedCondition)
+                        ?controller.handleSaveDataAndLoadNext
+                        :(){},
+                    screenSize: screenSize,
+                    text: "Save Data",
+                    iconData: Icons.label_rounded,
+                    color: (activatedCondition)
+                        ? Colors.purple
+                        : Colors.purple[300]!,
+                    iconColor: activatedCondition
+                        ? Colors.black
+                        : Colors.grey,
+                    textColor: activatedCondition
+                        ? Colors.black
+                        : Colors.grey
+                  );
+                }
+            ),
+            SizedBox(height: screenSize.width*0.05),
+            ValueListenableBuilder(
+                valueListenable: controller.isResultsVisible,
+                builder: (context,isResultsVisible,_){
+                  bool disableCondition = (isResultsVisible && controller.hasBoardBeenAttemptedOnce == true);
+                  return _PuzzleScreenPuzzleRowButtonWidget(
+                    onTap: (isResultsVisible)
+                        ? controller.handleReloadFirstAttempt
+                        : controller.handleConfirmPressed,
+                    screenSize: screenSize,
+                    text: (isResultsVisible && controller.hasBoardBeenAttemptedOnce != true)
+                        ? "Reload"
+                        : "Confirm",
+                    iconData: (isResultsVisible && controller.hasBoardBeenAttemptedOnce != true)
+                        ? Icons.receipt_long
+                        : Icons.fact_check_rounded,
+                    color: disableCondition
+                        ? Colors.purple[300]!
+                        : Colors.purple,
+                    iconColor: disableCondition
+                        ? Colors.grey
+                        : Colors.black,
+                    textColor: disableCondition
+                        ? Colors.grey
+                        : Colors.black,
+                  );
+                }
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -458,11 +499,17 @@ class _PuzzleScreenPuzzleRowButtonWidget extends StatelessWidget {
   final Size screenSize;
   final String text;
   final IconData iconData;
+  final Color color;
+  final Color iconColor;
+  final Color textColor;
   const _PuzzleScreenPuzzleRowButtonWidget({
     required this.onTap,
     required this.screenSize,
     required this.text,
     required this.iconData,
+    required this.color,
+    this.iconColor = Colors.black,
+    this.textColor = Colors.black,
   });
 
   @override
@@ -474,17 +521,21 @@ class _PuzzleScreenPuzzleRowButtonWidget extends StatelessWidget {
         child: Container(
           height: screenSize.width * 1.75 / 10,
           width: screenSize.width * 3.25 / 15,
-          color: Colors.purple,
+          color: color,
           child: Center(
             child: Column(
               children: [
                 Icon(
                   iconData,
                   size: screenSize.width * 1 / 10,
+                  color: iconColor,
                 ),
                 Text(
                   "$text",
-                  style: TextStyle(fontSize: screenSize.width / 25),
+                  style: TextStyle(
+                    fontSize: screenSize.width / 25,
+                    color: textColor,
+                  ),
                 ),
               ],
             ),

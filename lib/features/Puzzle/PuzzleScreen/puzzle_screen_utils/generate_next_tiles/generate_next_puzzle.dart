@@ -29,7 +29,6 @@ class PuzzleGenerator{
     } else {
       return _randomLayout(requestedLength,isFromDice: shouldUseDice);
     }
-
   }
 
   static String _randomLayout(int length,{bool isFromDice = true}){
@@ -53,7 +52,7 @@ class PuzzleGenerator{
 
   static String _generateLottoLayout({bool isFromDice = true}){
     double randomValue = random.nextDouble();
-    String lottoString = PuzzleCache.baseLetterNode.drawLotto(randomValue);
+    String lottoString = PuzzleCache.drawAllLotto();
     int requiredLength = (3 + isFourLetterModeInt);
     print("output lottoString is $lottoString");
     if (!lottoString.contains("QU")){

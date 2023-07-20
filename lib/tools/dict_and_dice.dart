@@ -15,21 +15,25 @@ class Dice{
     if (isDiceLoading == true){return true;}
     isDiceLoading = true;
     final String fileContent = await rootBundle.loadString(_dicePath);
-    txt = await _processFileContent(fileContent);
+    txt = _processFileContent(fileContent);
+
     isDiceLoading = false;
     isDiceLoaded = true;
     return false;
   }
 
-  static Future<List<List<String>>> _processFileContent(String fileContent){
-    return Future(() =>
-      fileContent.split('\n').map((diceIter) =>
-          diceIter.trim()
-              .split(' ')
-              .where((value) => value.isNotEmpty)
-              .toList()
-      ).toList()
-    );
+  static List<List<String>> _processFileContent(String fileContent){
+    int Qcount = 0;
+    List<List<String>> dice = fileContent.split('\n').map((diceIter) =>
+        diceIter.trim()
+            .split(' ')
+            .where((value) {
+              if (value == "Q") Qcount++;
+              return value.isNotEmpty;
+            })
+            .toList()
+    ).toList();
+    return (Qcount <2)?dice:throw("Not supposed to have multiple Q in dice.");
   }
 
   static void _changeDicePath(newDicePath){ //TODO needs implement

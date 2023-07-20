@@ -30,6 +30,12 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+    DateTime startTime = DateTime.now();
+    print("assign start");
+    print("done assigning with staging");
+    DateTime endTime = DateTime.now();
+    Duration duration = endTime.difference(startTime);
+    print('Execution time: ${duration.inMilliseconds} milliseconds'); // random timer encounter SPOTTED
   }
 
   @override

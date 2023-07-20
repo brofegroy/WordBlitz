@@ -62,10 +62,18 @@ class PuzzleScreenController{
       boardLayoutNotifier[i].value = list[i];
     }
   }
+  String _getTiles(){
+    List<String> tileList = [
+      boardLayoutNotifier[0].value,
+      boardLayoutNotifier[1].value,
+      boardLayoutNotifier[2].value,
+      boardLayoutNotifier[3].value,]..sort();
+    return tileList.join();
+  }
 
   Future<void> _startSafetyConfirmButtonTimer() async{
     isConfirmButtonEnabled.value = false;
-    await Future.delayed(Duration(milliseconds: 1000));
+    await Future.delayed(Duration(milliseconds: 500));
     isConfirmButtonEnabled.value = true;
   }
 
@@ -89,6 +97,7 @@ class PuzzleScreenController{
 
     bool isBlankTileEnabled = PuzzleGenerator.isBlankTileEnabled;
     isBlankTileModeEnabledNotifier.value = isBlankTileEnabled;
+
     String nextPuzzle = PuzzleGenerator.NextPuzzle();
     _assignTiles(nextPuzzle.split("") + [""]);
     formableWords = WordValidator.getFormableWords(nextPuzzle,withBlankTile: isBlankTileEnabled);
@@ -100,9 +109,6 @@ class PuzzleScreenController{
   void handleSaveDataAndLoadNext() async{
     if (isWordSearchLoading){return;}
     if (!shouldAllowChangeAnswerConfig && hasBoardBeenAttemptedOnce == null){throw("not supposed to be able to submit other answers");}
-    List<bool> results = wordColorList.map((color) => color == colorCorrect ? true : false).toList();
-    await WordValidator.savePuzzleResults(wordList,results);
-    await WordValidator.submitPuzzleCorrections(previouslyFakedWords.difference(wordList.toSet()).toList());
 
     bool isAllWordsCorrect = true;
     for (Color color in wordColorList){
@@ -110,6 +116,13 @@ class PuzzleScreenController{
     }
     if(isAllWordsCorrect){displayCorrectCountNotifier.value += 1;}
     else{displayWrongCountNotifier.value += 1;}
+
+    List<bool> results = wordColorList.map((color) => color == colorCorrect ? true : false).toList();
+    List<String> wordsNotFaked = previouslyFakedWords.difference(wordList.toSet()).toList();
+    await WordValidator.savePuzzleResults(wordList,results);
+    await WordValidator.submitPuzzleCorrections(wordsNotFaked);
+    await WordValidator.submitGridResult(_getTiles(),isAllWordsCorrect);
+    print(_getTiles());
 
     handleSkipPressed();
   }

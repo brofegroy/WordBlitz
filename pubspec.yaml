@@ -42,7 +42,6 @@ dependencies:
   sqflite: ^2.2.8+4
   shared_preferences: ^2.2.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
